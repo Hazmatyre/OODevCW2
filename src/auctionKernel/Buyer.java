@@ -1,11 +1,13 @@
 package auctionKernel;
 
-import java.time.LocalDate;
+public class Buyer extends User {
+	
+	public Buyer(String user, String pass) {
+		super(user, pass);
+	}
 
-public class Buyer {
-	private double startPrice;
-	private double reservePrice;
-	private LocalDate closeDate;
-	private char status;
+	public void victory() {
+		
+	}
 	
 }
