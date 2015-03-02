@@ -2,7 +2,7 @@ package auctionKernel;
 
 import java.time.LocalDate;
 
-public class Auction {
+public class Auction implements Blockable {
 	//Figure out what data structure for bids
 	private double startPrice, reservePrice;
 	private LocalDate closeDate;
@@ -22,6 +22,7 @@ public class Auction {
 		this.setStatus('C');
 	}
 	
+	@Override
 	public boolean isBlocked() {
 		if (this.getStatus() == '1')
 			return true;
@@ -29,6 +30,7 @@ public class Auction {
 			return false;
 	}
 	
+	@Override
 	public void setBlocked() {
 		if (this.getStatus() == '0') {
 			this.setStatus('1');

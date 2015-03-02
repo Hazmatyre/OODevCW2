@@ -1,6 +1,6 @@
 package auctionKernel;
 
-public class Seller extends User {
+public class Seller extends User implements Blockable {
 	private boolean blocked = false;
 	
 	public Seller(String user, String pass) {
@@ -11,7 +11,8 @@ public class Seller extends User {
 		return this.blocked;
 	}
 	
-	public void setBlocked(boolean arg) {
-		this.blocked = arg;
+	@Override
+	public void setBlocked() {
+		this.blocked = true;
 	}
 }
