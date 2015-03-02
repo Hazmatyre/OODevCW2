@@ -3,7 +3,7 @@ package auctionKernel;
 import java.time.LocalDate;
 
 public class Auction {
-	//Figure out what data structure for 
+	//Figure out what data structure for bids
 	private double startPrice, reservePrice;
 	private LocalDate closeDate;
 	private char status;
@@ -12,20 +12,21 @@ public class Auction {
 	//C = closed
 	
 	public void placeBid() {
-		
 	}
 	
 	public void verify() {
-		
+		this.setStatus('0');
 	}
 	
 	public void close() {
-		
+		this.setStatus('C');
 	}
 	
 	public boolean isBlocked() {
-		return false;
-		
+		if (this.getStatus() == '1')
+			return true;
+		else
+			return false;
 	}
 	
 	public void setBlocked() {

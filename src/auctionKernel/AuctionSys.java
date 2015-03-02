@@ -1,6 +1,6 @@
 package auctionKernel;
 
-public class Sys {
+public class AuctionSys {
 	//Figure out what data structure to store auction and user
 	
 	public void placeAuction() {
