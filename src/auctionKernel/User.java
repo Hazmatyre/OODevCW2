@@ -8,11 +8,6 @@ public abstract class User {
 		setPassword(pass);
 	}
 	
-	
-	public void createAccount (String crUsername, String crPassword) {
-		
-	}
-	
 	// Keep check password in for now, might add more advanced password utility.
 	public boolean checkPassword() {
 		return false;
