@@ -68,9 +68,22 @@ public class Auction implements Blockable {
 	public void setReservePrice(double price) {
 		this.reservePrice = price;
 	}
+	
+	
 	public void setCloseDate(LocalDate date) {
 		this.closeDate = date;
 	}
+	public void setStartDate(LocalDate date) {
+		this.closeDate = date;
+	}
+	public void setCloseDate(String date) {
+		this.setStartDate(LocalDate.parse(date));
+	}
+	public void setStartDate(String date) {
+		this.setCloseDate(LocalDate.parse(date));
+	}
+	
+	
 	public void setStatus(char status) {
 		this.status = status;
 	}
@@ -81,6 +94,9 @@ public class Auction implements Blockable {
 		return this.reservePrice;
 	}
 	public LocalDate getCloseDate() {
+		return this.closeDate;
+	}
+	public LocalDate getStartDate() {
 		return this.closeDate;
 	}
 	public char getStatus() {
