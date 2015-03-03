@@ -1,11 +1,5 @@
 package auctionKernel;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.time.LocalDate;
-import java.util.Scanner;
-
 public class Auction implements Blockable {
 	//Figure out what data structure for bids
 	private String username;
@@ -16,26 +10,9 @@ public class Auction implements Blockable {
 	//0 = started, 1 = blocked, 2 = sold, 3 = not sold
 	//C = closed
 	
-	
-	//USED FOR IMPORTING TEST DATA ##IGNORE
-	Scanner s;
-	
-	public Auction(){ //Constructor
-		insertTestData();
-	}
-	
-	public void insertTestData(){
-		try {
-			s = new Scanner(new BufferedReader(new FileReader("auctions.txt")));
-			s.useDelimiter(", ");
-			username = s.next();
-			startPrice = s.nextDouble();
-			reservePrice = s.nextDouble();
-			startDate = s.next();
-			closeDate = s.next();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}	
+	public Auction(String username, Double startPrice){ //Constructor
+		this.username = username;
+		this.startPrice = startPrice;
 	}
 	
 	public void placeBid() {
@@ -94,7 +71,7 @@ public class Auction implements Blockable {
 	public void setReservePrice(double price) {
 		this.reservePrice = price;
 	}
-	public void setCloseDate(LocalDate date) {
+	public void setCloseDate(String date) {
 		this.closeDate = date;
 	}
 	public void setStatus(char status) {
@@ -106,13 +83,19 @@ public class Auction implements Blockable {
 	public double getReservePrice() {
 		return this.reservePrice;
 	}
-	public LocalDate getCloseDate() {
-		return this.closeDate;
+	public String getCloseDate() {
+		return this.closeDate; 
 	}
 	public char getStatus() {
 		return this.status;
 	}
 	
+	public String getUsername(){
+		return this.username;
+	}
 	
-	
+	@Override
+	public String toString(){
+		return "Username:" + this.getUsername() + this.getStartPrice();
+	}	
 }
