@@ -16,7 +16,7 @@ public class AuctionSys {
 	public void insertTestData(){
 		try {
 			s = new Scanner(new BufferedReader(new FileReader("auctions.txt")));
-			while(s.hasNextLine()) { allAuctions.add(new Auction(s.next(), s.nextDouble())); }
+			while(s.hasNextLine()) { allAuctions.add(new Auction(s.next(), s.nextDouble(), s.nextDouble(), s.next(), s.next())); }
 			
 			System.out.println(allAuctions.get(0).toString());
 			

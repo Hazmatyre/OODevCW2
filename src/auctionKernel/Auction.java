@@ -10,9 +10,12 @@ public class Auction implements Blockable {
 	//0 = started, 1 = blocked, 2 = sold, 3 = not sold
 	//C = closed
 	
-	public Auction(String username, Double startPrice){ //Constructor
+	public Auction(String username, Double startPrice, Double reservePrice, String startDate, String closeDate){ //Constructor
 		this.username = username;
 		this.startPrice = startPrice;
+		this.reservePrice = reservePrice;
+		this.startDate = startDate;
+		this.closeDate = closeDate;
 	}
 	
 	public void placeBid() {
@@ -86,6 +89,9 @@ public class Auction implements Blockable {
 	public String getCloseDate() {
 		return this.closeDate; 
 	}
+	public String getStartDate() {
+		return this.startDate;
+	}
 	public char getStatus() {
 		return this.status;
 	}
@@ -96,6 +102,6 @@ public class Auction implements Blockable {
 	
 	@Override
 	public String toString(){
-		return "Username:" + this.getUsername() + this.getStartPrice();
+		return "Username:" + this.getUsername() + this.getStartPrice() + this.getReservePrice() + this.getStartDate() + this.getCloseDate() + this.getStatus();
 	}	
 }
