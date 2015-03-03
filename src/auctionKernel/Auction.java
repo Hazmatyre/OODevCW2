@@ -4,14 +4,16 @@ import java.time.LocalDate;
 
 public class Auction implements Blockable {
 	//Figure out what data structure for bids
+	private String username;
 	private double startPrice, reservePrice;
-	private LocalDate closeDate;
+	private LocalDate startDate, closeDate;
 	private char status;
 	//U = under construction, P = pending
 	//0 = started, 1 = blocked, 2 = sold, 3 = not sold
 	//C = closed
 	
 	public void placeBid() {
+		
 	}
 	
 	public void verify() {
