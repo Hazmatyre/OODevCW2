@@ -1,7 +1,10 @@
 package auctionKernel;
 
+import java.util.*;
+
 public class AuctionSys {
-	//Figure out what data structure to store auction and user
+	List<Auction> auctions = new LinkedList<Auction>();
+	List<User> users = new ArrayList<User>(); 
 	
 	public void placeAuction() {
 	//adds to auction data structure

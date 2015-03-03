@@ -1,10 +1,15 @@
 package auctionKernel;
 
 import java.time.LocalDate;
+import java.util.*;
 
 public class Auction implements Blockable {
-	//Figure out what data structure for bids
-	private String username;
+	
+	private ArrayDeque<Bid> bids = new ArrayDeque<Bid>(); //Use as a stack!!
+	private ArrayList<Buyer> buyers = new ArrayList<Buyer>();
+	private Seller seller;
+	private Item item;
+	
 	private double startPrice, reservePrice;
 	private LocalDate startDate, closeDate;
 	private char status;
@@ -68,8 +73,6 @@ public class Auction implements Blockable {
 	public void setReservePrice(double price) {
 		this.reservePrice = price;
 	}
-	
-	
 	public void setCloseDate(LocalDate date) {
 		this.closeDate = date;
 	}
@@ -82,8 +85,6 @@ public class Auction implements Blockable {
 	public void setStartDate(String date) {
 		this.setCloseDate(LocalDate.parse(date));
 	}
-	
-	
 	public void setStatus(char status) {
 		this.status = status;
 	}
@@ -101,6 +102,9 @@ public class Auction implements Blockable {
 	}
 	public char getStatus() {
 		return this.status;
+	}
+	public Seller getSeller() {
+		return this.seller;
 	}
 	
 	
