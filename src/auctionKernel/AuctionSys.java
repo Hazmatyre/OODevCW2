@@ -1,8 +1,12 @@
 package auctionKernel;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,6 +15,7 @@ public class AuctionSys {
 	
 	//USED FOR IMPORTING TEST DATA ##IGNORE
 	Scanner s;
+	PrintWriter p; // CHANGE TO BUFFERED WRITER AT SOME POINT
 	ArrayList<Auction> allAuctions = new ArrayList<Auction>();
 	int lineCount = 0;
 	
@@ -18,11 +23,22 @@ public class AuctionSys {
 		try {
 			s = new Scanner(new BufferedReader(new FileReader("auctions.txt")));
 			while(s.hasNextLine()) { allAuctions.add(new Auction(s.next(), s.nextDouble(), s.nextDouble(), s.next(), s.next(), s.next())); lineCount++;}
-			
-			for(int i = 0; i < lineCount; i++) {
-			System.out.println(allAuctions.get(i).toString() + "\n");
-			}
+			displayAuctions();
 		} catch (FileNotFoundException e) { e.printStackTrace(); }	
+	}
+	
+	public void displayAuctions(){
+		for(int i = 0; i < lineCount; i++) {
+			System.out.println(allAuctions.get(i).toString() + "\n");
+		}
+	}
+	
+	public void saveAuction() throws FileNotFoundException{
+		try {
+			p = new PrintWriter(new BufferedWriter(new FileWriter("auctions.txt", true)));
+			p.println("\n" + allAuctions.get(0));
+		} catch (IOException e) { e.printStackTrace(); }
+		  finally { if(p != null) { p.close(); } }
 	}
 	
 	public void placeAuction() {
