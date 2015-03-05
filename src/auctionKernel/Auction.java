@@ -5,17 +5,18 @@ public class Auction implements Blockable {
 	private String username;
 	private double startPrice, reservePrice;
 	private String startDate, closeDate; //CHANGED TO STRING ---- CHANGE BACK BEFORE SUBMITTING
-	private char status;
+	private String status;
 	//U = under construction, P = pending
 	//0 = started, 1 = blocked, 2 = sold, 3 = not sold
 	//C = closed
 	
-	public Auction(String username, Double startPrice, Double reservePrice, String startDate, String closeDate){ //Constructor
+	public Auction(String username, Double startPrice, Double reservePrice, String startDate, String closeDate, String status){ //Constructor
 		this.username = username;
 		this.startPrice = startPrice;
 		this.reservePrice = reservePrice;
 		this.startDate = startDate;
 		this.closeDate = closeDate;
+		this.status = status;
 	}
 	
 	public void placeBid() {
@@ -23,16 +24,16 @@ public class Auction implements Blockable {
 	}
 	
 	public void verify() {
-		this.setStatus('0');
+		this.setStatus("0");
 	}
 	
 	public void close() {
-		this.setStatus('C');
+		this.setStatus("C");
 	}
 	
 	@Override
 	public boolean isBlocked() {
-		if (this.getStatus() == '1')
+		if (this.getStatus() == "1")
 			return true;
 		else
 			return false;
@@ -40,16 +41,16 @@ public class Auction implements Blockable {
 	
 	@Override
 	public void setBlocked() {
-		if (this.getStatus() == '0') {
-			this.setStatus('1');
+		if (this.getStatus() == "0") {
+			this.setStatus("1");
 		}
 		else {
 			statusPrimer();
 		}	
 	}
 	public void setUnblocked() {
-		if (this.getStatus() == '1') {
-			this.setStatus('0');
+		if (this.getStatus() == "1") {
+			this.setStatus("0");
 		}
 		else {
 			statusPrimer();
@@ -61,9 +62,9 @@ public class Auction implements Blockable {
 	private void statusPrimer() {
 		System.out.println("Cannot block/unblock auction: ");
 		switch (this.status) {
-		case 'U':System.out.print("This auction's currently under construction.");
-		case 'P':System.out.print("This auction's currently pending.");
-		case 'C':System.out.print("This auction's already closed.");
+		case "U":System.out.print("This auction's currently under construction.");
+		case "P":System.out.print("This auction's currently pending.");
+		case "C":System.out.print("This auction's already closed.");
 		}
 	}
 	
@@ -77,7 +78,7 @@ public class Auction implements Blockable {
 	public void setCloseDate(String date) {
 		this.closeDate = date;
 	}
-	public void setStatus(char status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 	public double getStartPrice() {
@@ -92,7 +93,7 @@ public class Auction implements Blockable {
 	public String getStartDate() {
 		return this.startDate;
 	}
-	public char getStatus() {
+	public String getStatus() {
 		return this.status;
 	}
 	
@@ -102,6 +103,6 @@ public class Auction implements Blockable {
 	
 	@Override
 	public String toString(){
-		return "Username:" + this.getUsername() + this.getStartPrice() + this.getReservePrice() + this.getStartDate() + this.getCloseDate() + this.getStatus();
+		return "Username: " + this.getUsername() + "\nStart Price: " + this.getStartPrice() + "\nReserve Price: " + this.getReservePrice() + "\nStart Date: " + this.getStartDate() + "\nClose Date: " + this.getCloseDate() + "\nStatus: " + this.getStatus();
 	}	
 }

@@ -12,17 +12,17 @@ public class AuctionSys {
 	//USED FOR IMPORTING TEST DATA ##IGNORE
 	Scanner s;
 	ArrayList<Auction> allAuctions = new ArrayList<Auction>();
+	int lineCount = 0;
 	
 	public void insertTestData(){
 		try {
 			s = new Scanner(new BufferedReader(new FileReader("auctions.txt")));
-			while(s.hasNextLine()) { allAuctions.add(new Auction(s.next(), s.nextDouble(), s.nextDouble(), s.next(), s.next())); }
+			while(s.hasNextLine()) { allAuctions.add(new Auction(s.next(), s.nextDouble(), s.nextDouble(), s.next(), s.next(), s.next())); lineCount++;}
 			
-			System.out.println(allAuctions.get(0).toString());
-			
-		} catch (FileNotFoundException e) {
-			//e.printStackTrace();
-		}	
+			for(int i = 0; i < lineCount; i++) {
+			System.out.println(allAuctions.get(i).toString() + "\n");
+			}
+		} catch (FileNotFoundException e) { e.printStackTrace(); }	
 	}
 	
 	public void placeAuction() {
