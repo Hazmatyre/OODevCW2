@@ -8,6 +8,7 @@ public abstract class User {
 		setPassword(pass);
 	}
 	
+	// Keep check password in for now, might add more advanced password utility.
 	public boolean checkPassword() {
 		return false;
 	}
@@ -17,6 +18,9 @@ public abstract class User {
 	}
 	private void setPassword(String pass) {
 		this.password = pass;
+	}
+	public String getUsername() {
+		return this.username;
 	}
 	
 }
