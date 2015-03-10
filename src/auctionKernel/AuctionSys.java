@@ -3,13 +3,7 @@ import java.util.InputMismatchException;
 import auctionKernel.*;
 import java.util.*;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -34,8 +28,9 @@ public class AuctionSys {
 	
 	public void placeAuction() {
 		try {
+			allAuctions.add(new Auction(keyIn.next(), keyIn.nextDouble(), keyIn.nextDouble(), keyIn.next(), keyIn.next(), keyIn.next())); lineCount++;
 			p = new PrintWriter(new BufferedWriter(new FileWriter("auctions.txt", true)));
-			p.println("\n" + allAuctions.get(0));
+			p.print("\n" + allAuctions.get(lineCount-1));
 		} catch (IOException e) { e.printStackTrace(); }
 		  finally { if(p != null) { p.close(); } }
 	}
