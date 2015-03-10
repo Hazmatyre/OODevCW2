@@ -1,4 +1,5 @@
 import java.io.FileNotFoundException;
+
 import auctionKernel.*;
 
 public class Main {
@@ -15,7 +16,15 @@ public class Main {
 		*/
 		
 		AuctionSys menu = new AuctionSys();
-		menu.startDisplay();
+		//menu.startDisplay();
+		menu.insertTestData();
+		menu.browseAuction();
+		try {
+			menu.saveAuction();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

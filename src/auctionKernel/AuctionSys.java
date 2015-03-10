@@ -29,17 +29,10 @@ public class AuctionSys {
 		try {
 			s = new Scanner(new BufferedReader(new FileReader("auctions.txt")));
 			while(s.hasNextLine()) { allAuctions.add(new Auction(s.next(), s.nextDouble(), s.nextDouble(), s.next(), s.next(), s.next())); lineCount++;}
-			displayAuctions();
 		} catch (FileNotFoundException e) { e.printStackTrace(); }	
 	}
 	
-	public void displayAuctions(){
-		for(int i = 0; i < lineCount; i++) {
-			System.out.println(allAuctions.get(i).toString() + "\n");
-		}
-	}
-	
-	public void saveAuction() throws FileNotFoundException{
+	public void placeAuction() {
 		try {
 			p = new PrintWriter(new BufferedWriter(new FileWriter("auctions.txt", true)));
 			p.println("\n" + allAuctions.get(0));
@@ -47,12 +40,11 @@ public class AuctionSys {
 		  finally { if(p != null) { p.close(); } }
 	}
 	
-	public void placeAuction() {
-	//adds to auction data structure
-	}
-	
 	public void browseAuction() {
-	//returns all open auctions in data structure
+		//Need to check the auction status before displaying
+		for(int i = 0; i < lineCount; i++) {
+			System.out.println(allAuctions.get(i).toString() + "\n");
+		}
 	}
 	
 	public void setupAccount() {

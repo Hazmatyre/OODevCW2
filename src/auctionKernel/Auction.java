@@ -1,5 +1,6 @@
 package auctionKernel;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -10,6 +11,7 @@ public class Auction implements Blockable {
 	//private Seller seller;
 	private String username;
 	private Item item;
+	DecimalFormat df = new DecimalFormat("#.00"); 
 	
 	private double startPrice, reservePrice;
 	private String startDate, closeDate; //CHANGED TO STRING ---- CHANGE BACK BEFORE SUBMITTING
@@ -102,6 +104,7 @@ public class Auction implements Blockable {
 	}
 	public double getStartPrice() {
 		return this.startPrice;
+		
 	}
 	public double getReservePrice() {
 		return this.reservePrice;
@@ -129,7 +132,7 @@ public class Auction implements Blockable {
 	
 	@Override
 	public String toString(){
-		return this.getUsername() + " " + this.getStartPrice() + " " + this.getReservePrice() + " " + this.getStartDate() + " " + this.getCloseDate() + " " + this.getStatus();
+		return this.getUsername() + " " + df.format(this.getStartPrice()) + " " + df.format(this.getReservePrice()) + " " + this.getStartDate() + " " + this.getCloseDate() + " " + this.getStatus();
 	}	
 	
 }
