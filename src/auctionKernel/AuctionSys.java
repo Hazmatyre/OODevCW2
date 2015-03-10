@@ -60,11 +60,12 @@ public class AuctionSys {
 	}
 	
 	// userIn takes an integer as a max value for a switch for a menu setup.
+	// userIn takes an integer as a max value for a switch for a menu setup.
 	public int userIn(int max){
 		int switcher = 0;
 		String input;
 		while (switcher < 1 || switcher > max){
-			input = keyIn.next(); 
+			input = keyIn.nextLine(); 
 			try {
 				switcher = Integer.parseInt(input);
 			} catch (NumberFormatException userIn1) {
@@ -75,7 +76,6 @@ public class AuctionSys {
 				System.out.println("Enter a number between 1 and " + max);
 			}
 		}
-		keyIn.close();
 		return switcher;
 }
 	
@@ -109,14 +109,36 @@ public class AuctionSys {
 	
 	
 	public void loginDisplay () {
+		String uName,uPass;
+		int type;
 		System.out.println("Auction login:");
 		System.out.println("1. Buyer");
 		System.out.println("2. Seller");
-		userIn(2);
+		type = userIn(2) - 1;
+		// userin-1 because the type is stored as 0 and 1, not 1 and 2.
+		
+		System.out.println("Enter username:");
+		uName = keyIn.nextLine();
+		System.out.println("Enter password:");
+		uPass = keyIn.nextLine();
+		
 	}
 	public void buyerloginDisplay(){
 		System.out.println("1. Browse auctions");
 		System.out.println("2. View bids");
+	}
+	
+	public boolean readAccount(String username) throws IOException {
+		Scanner accIn = new Scanner(new FileReader("accounts.txt"));
+		accIn.useDelimiter(", ");
+		accIn.nextLine();
+		while (accIn.hasNextLine()) {
+		   if (accIn.next() == username ){
+			   return false;
+		   }
+		}
+		accIn.close();
+		return true;
 	}
 	
 	public void sellerloginDisplay() {
@@ -146,14 +168,24 @@ public class AuctionSys {
 		User u;
 		
 		switch(choice) {
-		// buyer
 		case 1: u = new Buyer(crUsername, crPassword);
-					// write buyer to account file (0, username, password)
-					//buyerloginDisplay();
-		// seller	
+				try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("accounts.txt", true)))) {
+				    out.println("0, " + crUsername + ", " + crPassword);
+				}catch (IOException e) { 
+					System.out.println("Account file not found");
+				}
+				System.out.println("Buyer Account Created");
+				buyerloginDisplay();	
+				break;
 		case 2: u = new Seller(crUsername, crPassword);
-					// write seller to account file (1, username, password)
-					//sellerloginDisplay()
+				try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("accounts.txt", true)))) {
+				    out.println("1, " + crUsername + ", " + crPassword);
+				}catch (IOException e) {
+					System.out.println("Account file not found");
+				}
+				System.out.println("Seller Account Created");
+				sellerloginDisplay();
+				break;
 		}
 	}	
 }
