@@ -20,7 +20,7 @@ public class Main {
 		menu.insertTestData();
 		menu.browseAuction();
 		try {
-			menu.saveAuction();
+			menu.placeAuction();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
