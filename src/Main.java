@@ -4,6 +4,7 @@ import auctionKernel.*;
 public class Main {
 
 	public static void main(String[] args) {
+		/*
 		AuctionSys as = new AuctionSys();
 		as.insertTestData();
 		try {
@@ -11,11 +12,11 @@ public class Main {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		*/
 		
-		/* Proper startup
 		AuctionSys menu = new AuctionSys();
 		menu.startDisplay();
-		*/
+		
 	}
 
 }
