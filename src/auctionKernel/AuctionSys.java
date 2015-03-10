@@ -109,36 +109,50 @@ public class AuctionSys {
 	
 	
 	public void loginDisplay () {
-		String uName,uPass;
-		int type;
-		System.out.println("Auction login:");
-		System.out.println("1. Buyer");
-		System.out.println("2. Seller");
-		type = userIn(2) - 1;
-		// userin-1 because the type is stored as 0 and 1, not 1 and 2.
-		
+		String username,password;
+		int type = 2;
+
 		System.out.println("Enter username:");
-		uName = keyIn.nextLine();
+		username = keyIn.nextLine();
 		System.out.println("Enter password:");
-		uPass = keyIn.nextLine();
+		password = keyIn.nextLine();
+		
+		try {
+		 	type = readAccount(username, password);
+		} catch (IOException e) {
+		}
+		switch (type) {
+		case 0: buyerloginDisplay();
+				break;
+		case 1: sellerloginDisplay();
+				break;
+		case 2: System.out.println("username or password incorrect");
+				break;
+		}
 		
 	}
+
+	public int readAccount(String username, String password) throws IOException {
+		Scanner accIn = new Scanner(new FileReader("accounts.txt"));
+		accIn.nextLine();
+		String lineArr[];
+		String lineStr;
+		while (accIn.hasNextLine()) {
+			lineStr = accIn.nextLine();
+			lineArr = lineStr.split(" ");
+			if (lineArr[1].equals(username) && lineArr[2].equals(password)){
+			   accIn.close();
+			   return Integer.parseInt(lineArr[0]);
+			}
+		}
+		accIn.close();
+		return 2;
+	}
+	
 	public void buyerloginDisplay(){
 		System.out.println("1. Browse auctions");
 		System.out.println("2. View bids");
-	}
-	
-	public boolean readAccount(String username) throws IOException {
-		Scanner accIn = new Scanner(new FileReader("accounts.txt"));
-		accIn.useDelimiter(", ");
-		accIn.nextLine();
-		while (accIn.hasNextLine()) {
-		   if (accIn.next() == username ){
-			   return false;
-		   }
-		}
-		accIn.close();
-		return true;
+		userIn(2);
 	}
 	
 	public void sellerloginDisplay() {
@@ -146,17 +160,15 @@ public class AuctionSys {
 		System.out.println("2. View current auctions");
 		System.out.println("3. View pending auctions");
 		System.out.println("4. Add new item to stock");
+		userIn(4);
 	}
 	
 	// adds a new user, they can type return to cancel account creation.
 	public void signupDisplay() {
 		System.out.println("Sign up:");
-		System.out.println("Enter new username or type \"return\" now to return to main menu");
 		String crUsername = keyIn.next();
-		if (crUsername == "return") {
-			return;
-		}
-		System.out.println(crUsername + "chosen.");
+		System.out.println(crUsername + " chosen.");
+		
 		System.out.println("Enter your password: ");
 		String crPassword = keyIn.next();
 		

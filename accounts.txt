@@ -1,5 +1,5 @@
 // 0 is a buyer, 1 is a seller
-0, matt, strongpass
-0, alex, javaissofunsuchwow
-0, haziq, bestpasswordever
-1, mramazon, gimmeyourmoney
+0 matt strongpass
+0 alex javaissofunsuchwow
+0 haziq bestpasswordever
+1 mramazon gimmeyourmoney
