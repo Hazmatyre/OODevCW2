@@ -45,6 +45,15 @@ public class AuctionSys {
 		*/
 	}
 	
+	private Auction getAuctionByDescription(String desc) {
+		for (Auction a : allAuctions) {
+			if (a.getItem().getDescription() == desc) {
+				return a;
+			}
+		}
+		return null;
+	}
+	
 	public void setupAccount() {
 	//creates new User
 	}
