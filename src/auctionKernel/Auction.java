@@ -2,6 +2,7 @@ package auctionKernel;
 
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Auction implements Blockable {
@@ -9,24 +10,26 @@ public class Auction implements Blockable {
 	private ArrayDeque<Bid> bids = new ArrayDeque<Bid>(); //Use as a stack!!
 	private ArrayList<Buyer> buyers = new ArrayList<Buyer>();
 	//private Seller seller;
-	private String username;
+	private String username, itemName, description;
 	private Item item;
 	DecimalFormat df = new DecimalFormat("#.00"); 
 	
 	private double startPrice, reservePrice;
-	private String startDate, closeDate; //CHANGED TO STRING ---- CHANGE BACK BEFORE SUBMITTING
+	private LocalDateTime startDate, closeDate; //CHANGED TO STRING ---- CHANGE BACK BEFORE SUBMITTING
 	private String status;
 	//U = under construction, P = pending
 	//0 = started, 1 = blocked, 2 = sold, 3 = not sold
 	//C = closed
 	
-	public Auction(String username, Double startPrice, Double reservePrice, String startDate, String closeDate, String status){ //Constructor
+	public Auction(String username, String itemName, Double startPrice, Double reservePrice, LocalDateTime startDate, LocalDateTime closeDate, String status, String description){ //Constructor
 		this.username = username;
+		this.itemName = itemName;
 		this.startPrice = startPrice;
 		this.reservePrice = reservePrice;
 		this.startDate = startDate;
 		this.closeDate = closeDate;
 		this.status = status;
+		this.description = description;
 	}
 	
 	public void placeBid() {
@@ -65,7 +68,9 @@ public class Auction implements Blockable {
 		else {
 			statusPrimer();
 		}
-			
+	}
+	public LocalDateTime stringToDate(String date) {
+		return LocalDateTime.parse(date);
 	}
 	
 	//Status primer
@@ -86,18 +91,14 @@ public class Auction implements Blockable {
 		this.reservePrice = price;
 	}
 	/*
-	public void setStartDate(LocalDate date) {
-		this.closeDate = date;
-	}
+
 	public void setCloseDate(String date) {
 		this.setCloseDate(LocalDate.parse(date));
 	}
-	public void setStartDate(LocalDate date) {
+	
+	public void setStartDate(LocalDateTime date) {
 		this.startDate = date;
-	}
-	public void setStartDate(String date) {
-		this.setStartDate(LocalDate.parse(date));
-	}
+
 	*/
 	public void setStatus(String status) {
 		this.status = status;
@@ -109,20 +110,14 @@ public class Auction implements Blockable {
 	public double getReservePrice() {
 		return this.reservePrice;
 	}
-	public String getCloseDate() {
-		return this.closeDate; 
-	}
-	public String getStartDate() {
-		return this.startDate;
-	}
-	/*
-	public LocalDate getStartDate() {
+
+	public LocalDateTime getStartDate() {
 		return this.closeDate;
 	}
-	public LocalDate getCloseDate() {
+	public LocalDateTime getCloseDate() {
 		return this.closeDate;
 	}
-	*/
+
 	public String getStatus() {
 		return this.status;
 	}

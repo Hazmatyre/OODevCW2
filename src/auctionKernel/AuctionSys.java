@@ -1,8 +1,10 @@
 package auctionKernel;
+import java.time.LocalDateTime;
 import java.util.InputMismatchException;
-import auctionKernel.*;
-import java.util.*;
 
+import auctionKernel.*;
+
+import java.util.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -19,35 +21,37 @@ public class AuctionSys {
 	List<User> users = new ArrayList<User>(); 
 	int lineCount = 0;
 	
-	public void insertTestData(){
-		try {
-			s = new Scanner(new BufferedReader(new FileReader("auctions.txt")));
-			while(s.hasNextLine()) { allAuctions.add(new Auction(s.next(), s.nextDouble(), s.nextDouble(), s.next(), s.next(), s.next())); lineCount++;}
-		} catch (FileNotFoundException e) { e.printStackTrace(); }	
+	public void placeAuction(String username, String itemName, double startPrice, double reservePrice, LocalDateTime startDate, LocalDateTime endDate, String status, String description) {
+		
+	
+			allAuctions.add(new Auction (username,itemName,startPrice,reservePrice,startDate,endDate, status, description)); 
 	}
 	
-	public void placeAuction() {
-		try {
-			allAuctions.add(new Auction(keyIn.next(), keyIn.nextDouble(), keyIn.nextDouble(), keyIn.next(), keyIn.next(), keyIn.next())); lineCount++;
-			p = new PrintWriter(new BufferedWriter(new FileWriter("auctions.txt", true)));
-			p.print("\n" + allAuctions.get(lineCount-1));
-		} catch (IOException e) { e.printStackTrace(); }
-		  finally { if(p != null) { p.close(); } }
+	public void createAuctionDisplay() {
+		
 	}
 	
 	public void browseAuction() {
 		//Need to check the auction status before displaying
-		for(int i = 0; i < lineCount; i++) {
-			System.out.println(allAuctions.get(i).toString() + "\n");
+		for(Auction a : allAuctions) {
+			//System.out.println(allAuctions.get(i).toString() + "\n");
+			if (a.getCloseDate().isBefore(LocalDateTime.now())) {
+				System.out.println( ); // Browse format for when the proper auction object/list is done
+			}
+
 		}
+		/* Browse format: 
+		 * TV SET - £100 - Ends: 30/03/2015, reserve not met		
+		*/
 	}
 	
 	public void setupAccount() {
 	//creates new User
 	}
 	
+
 	// userIn takes an integer as a max value for a switch for a menu setup.
-	// userIn takes an integer as a max value for a switch for a menu setup.
+	// TODO : userIn could accept Q for quit at ANY TIME
 	public int userIn(int max){
 		int switcher = 0;
 		String input;
@@ -77,7 +81,7 @@ public class AuctionSys {
 		// Choices for each menu entry, needs finishing
 		switch (choice) {
 		case 1: System.out.println();
-				listAuctions();
+				browseAuction();
 				break;
 		case 2: System.out.println(); 
 				loginDisplay();
@@ -95,7 +99,7 @@ public class AuctionSys {
 	}
 	
 	
-	public void loginDisplay () {
+	private void loginDisplay() {
 		String username,password;
 		int type = 2;
 
@@ -119,7 +123,7 @@ public class AuctionSys {
 		
 	}
 
-	public int readAccount(String username, String password) throws IOException {
+	private int readAccount(String username, String password) throws IOException {
 		Scanner accIn = new Scanner(new FileReader("accounts.txt"));
 		accIn.nextLine();
 		String lineArr[];
@@ -136,13 +140,15 @@ public class AuctionSys {
 		return 2;
 	}
 	
-	public void buyerloginDisplay(){
+	private void buyerloginDisplay(){
 		System.out.println("1. Browse auctions");
 		System.out.println("2. View bids");
-		userIn(2);
+		System.out.println("3. Place bid");
+		// placebid takes you to browse -> select auction to place bid on
+		userIn(3);
 	}
 	
-	public void sellerloginDisplay() {
+	private void sellerloginDisplay() {
 		System.out.println("1. Start new auction");
 		System.out.println("2. View current auctions");
 		System.out.println("3. View pending auctions");
@@ -151,7 +157,7 @@ public class AuctionSys {
 	}
 	
 	// adds a new user, they can type return to cancel account creation.
-	public void signupDisplay() {
+	private void signupDisplay() {
 		System.out.println("Sign up:");
 		String crUsername = keyIn.next();
 		System.out.println(crUsername + " chosen.");
