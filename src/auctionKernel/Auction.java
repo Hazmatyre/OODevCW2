@@ -82,8 +82,14 @@ public class Auction implements Blockable {
 	public void setStartPrice(double price) {
 		this.startPrice = price;
 	}
+	public double getStartPrice() {
+		return this.startPrice;
+	}
 	public void setReservePrice(double price) {
 		this.reservePrice = price;
+	}
+	public double getReservePrice() {
+		return this.reservePrice;
 	}
 	/*
 	public void setStartDate(LocalDate date) {
@@ -98,24 +104,6 @@ public class Auction implements Blockable {
 	public void setStartDate(String date) {
 		this.setStartDate(LocalDate.parse(date));
 	}
-	*/
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	public double getStartPrice() {
-		return this.startPrice;
-		
-	}
-	public double getReservePrice() {
-		return this.reservePrice;
-	}
-	public String getCloseDate() {
-		return this.closeDate; 
-	}
-	public String getStartDate() {
-		return this.startDate;
-	}
-	/*
 	public LocalDate getStartDate() {
 		return this.closeDate;
 	}
@@ -123,12 +111,28 @@ public class Auction implements Blockable {
 		return this.closeDate;
 	}
 	*/
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public String getStatus() {
 		return this.status;
+	}
+	public void setItem(Item item) {
+		this.item = item;
+	}
+	public Item getItem() {
+		return this.item;
+	}
+	public String getCloseDate() {
+		return this.closeDate; 
+	}
+	public String getStartDate() {
+		return this.startDate; 
 	}
 	public String getUsername(){
 		return this.username;
 	}
+
 	
 	@Override
 	public String toString(){
