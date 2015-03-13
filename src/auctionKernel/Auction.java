@@ -69,12 +69,12 @@ public class Auction implements Blockable {
 			statusPrimer();
 		}
 	}
-	public LocalDateTime stringToDate(String date) {
-		return LocalDateTime.parse(date);
+	public double getCurrentBid() {
+		return bids.peek().getAmount();
 	}
 	
 	//Status primer
-	private void statusPrimer() {
+	public void statusPrimer() {
 		System.out.println("Cannot block/unblock auction: ");
 		switch (this.status) {
 		case "U":System.out.print("This auction's currently under construction.");
@@ -83,45 +83,53 @@ public class Auction implements Blockable {
 		}
 	}
 	
-	//Set and Gets
+	
+	//Sets
 	public void setStartPrice(double price) {
 		this.startPrice = price;
-	}
-	public double getStartPrice() {
-		return this.startPrice;
 	}
 	public void setReservePrice(double price) {
 		this.reservePrice = price;
 	}
-	public double getReservePrice() {
-		return this.reservePrice;
-	}
-
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public LocalDateTime getStartDate() {
-		return this.startDate;
-	}
-	
-	public LocalDateTime getCloseDate() {
-		return this.closeDate;
-	}
-
-
-	public String getStatus() {
-		return this.status;
 	}
 	public void setItem(Item item) {
 		this.item = item;
 	}
-	public Item getItem() {
-		return this.item;
-	}
+	// Gets
 	public String getUsername(){
 		return this.username;
 	}
+	public String getItemName(){
+		return this.itemName;
+	}
+	public double getReservePrice() {
+		return this.reservePrice;
+	}
+	public LocalDateTime getStartDate() {
+		return this.startDate;
+	}
+	public LocalDateTime getCloseDate() {
+		return this.closeDate;
+	}
+	public double getStartPrice() {
+		return this.startPrice;
+	}
+	public String getStatus() {
+		return this.status;
+	}
+	public Item getItem() {
+		return this.item;
+	}
+	public boolean getreserveMet() {
+		if (this.reservePrice < bids.peek().getAmount()) {
+			return false;
+		}
+		return true;
+	}
+
+
 
 	
 	@Override

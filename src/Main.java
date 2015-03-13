@@ -17,14 +17,7 @@ public class Main {
 
 		menu.startDisplay();
 		
-		
-		//menu.browseAuction();
-		try {
-			//menu.placeAuction();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//menu.placeAuction("user1", "TV", 100.00, 150.00, 04/03/2015, 10/03/2015, "0", "POS");
 		
 	}
 

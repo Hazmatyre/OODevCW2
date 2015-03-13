@@ -22,11 +22,9 @@ public class AuctionSys {
 	int lineCount = 0;
 	
 	public void placeAuction(String username, String itemName, double startPrice, double reservePrice, LocalDateTime startDate, LocalDateTime endDate, String status, String description) {
-		
-	
 			allAuctions.add(new Auction (username,itemName,startPrice,reservePrice,startDate,endDate, status, description)); 
 	}
-	
+	// matt needs to finish
 	public void createAuctionDisplay() {
 		
 	}
@@ -34,15 +32,12 @@ public class AuctionSys {
 	public void browseAuction() {
 		//Need to check the auction status before displaying
 		for(Auction a : allAuctions) {
-			//System.out.println(allAuctions.get(i).toString() + "\n");
 			if (a.getCloseDate().isBefore(LocalDateTime.now())) {
-				System.out.println( ); // Browse format for when the proper auction object/list is done
+				System.out.printf(a.getItemName() + "£" + a.getCurrentBid()); // Browse format for when the proper auction object/list is done
 			}
-
 		}
 		/* Browse format: 
-		 * TV SET - £100 - Ends: 30/03/2015, reserve not met		
-		*/
+		 * TV SET - £100 - Ends: 30/03/2015, reserve not met  */
 	}
 	
 	private Auction getAuctionByDescription(String desc) {
