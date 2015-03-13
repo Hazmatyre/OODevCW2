@@ -1,5 +1,18 @@
 // 0 is a buyer, 1 is a seller
-0 matt strongpass
-0 alex javaissofunsuchwow
-0 haziq bestpasswordever
-1 mramazon gimmeyourmoney
+1 matt 123
+1 alex 123
+1 haziq 123
+
+0 mramazon 123
+	Bike
+	Car
+0 ebay 123
+	Truck
+0 kyle 123
+	Plane
+0 dennis 123
+0 conrad 123
+0 squall 123
+0 quistis 123
+0 seifer 123
+

@@ -3,28 +3,27 @@ import auctionKernel.*;
 public class Main {
 
 	public static void main(String[] args) {
-		/*
-		AuctionSys as = new AuctionSys();
-		as.insertTestData();
-		try {
-			as.saveAuction();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		*/
+
 		
 		AuctionSys menu = new AuctionSys();
+		
+		menu.addSeller("mramazon","123");
+		menu.addSeller("ebay","123");
+		menu.addSeller("kyle","123");
+		menu.addSeller("dennis","123");
+		menu.addSeller("conrad","123");
+		menu.addSeller("squall","123");
+		menu.addSeller("quistis","123");
+		menu.addSeller("seifer","123");
+		menu.addBuyer("matt","123");
+		menu.addBuyer("alex","123");
+		menu.addBuyer("haziq","123");
+
+
 
 		menu.startDisplay();
 		
 		
-		//menu.browseAuction();
-		try {
-			//menu.placeAuction();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 	}
 

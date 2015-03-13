@@ -9,8 +9,8 @@ public class Auction implements Blockable {
 	
 	private ArrayDeque<Bid> bids = new ArrayDeque<Bid>(); //Use as a stack!!
 	private ArrayList<Buyer> buyers = new ArrayList<Buyer>();
-	//private Seller seller;
-	private String username, itemName, description;
+	private Seller seller;
+	private String itemName, description;
 	private Item item;
 	DecimalFormat df = new DecimalFormat("#.00"); 
 	
@@ -21,8 +21,8 @@ public class Auction implements Blockable {
 	//0 = started, 1 = blocked, 2 = sold, 3 = not sold
 	//C = closed
 	
-	public Auction(String username, String itemName, Double startPrice, Double reservePrice, LocalDateTime startDate, LocalDateTime closeDate, String status, String description){ //Constructor
-		this.username = username;
+	public Auction(Seller seller, String itemName, Double startPrice, Double reservePrice, LocalDateTime startDate, LocalDateTime closeDate, String status, String description){ //Constructor
+		this.seller = seller;
 		this.itemName = itemName;
 		this.startPrice = startPrice;
 		this.reservePrice = reservePrice;
@@ -108,8 +108,6 @@ public class Auction implements Blockable {
 	public LocalDateTime getCloseDate() {
 		return this.closeDate;
 	}
-
-
 	public String getStatus() {
 		return this.status;
 	}
@@ -119,14 +117,14 @@ public class Auction implements Blockable {
 	public Item getItem() {
 		return this.item;
 	}
-	public String getUsername(){
-		return this.username;
+	public Seller getSeller(){
+		return this.seller;
 	}
 
 	
 	@Override
 	public String toString(){
-		return this.getUsername() + " " + df.format(this.getStartPrice()) + " " + df.format(this.getReservePrice()) + " " + this.getStartDate() + " " + this.getCloseDate() + " " + this.getStatus();
+		return this.getSeller() + " " + df.format(this.getStartPrice()) + " " + df.format(this.getReservePrice()) + " " + this.getStartDate() + " " + this.getCloseDate() + " " + this.getStatus();
 	}	
 	
 }

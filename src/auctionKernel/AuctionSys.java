@@ -21,10 +21,17 @@ public class AuctionSys {
 	List<User> users = new ArrayList<User>(); 
 	int lineCount = 0;
 	
-	public void placeAuction(String username, String itemName, double startPrice, double reservePrice, LocalDateTime startDate, LocalDateTime endDate, String status, String description) {
-		
+	public void placeAuction(Seller username, String itemName, double startPrice, double reservePrice, LocalDateTime startDate, LocalDateTime endDate, String status, String description) {
+		allAuctions.add(new Auction (username,itemName,startPrice,reservePrice,startDate,endDate, status, description)); 
+	}
 	
-			allAuctions.add(new Auction (username,itemName,startPrice,reservePrice,startDate,endDate, status, description)); 
+	public Seller getSellerByUsername(String uname) {
+		for(User x : users) {
+			if (x.getUsername() == uname) {
+				return (Seller) x;
+			}
+		}
+		return null;
 	}
 	
 	public void createAuctionDisplay() {
@@ -54,8 +61,12 @@ public class AuctionSys {
 		return null;
 	}
 	
-	public void setupAccount() {
-	//creates new User
+	public void addBuyer(String user, String pass) {
+		users.add(new Buyer(user, pass));
+	}
+	
+	public void addSeller(String user, String pass) {
+		users.add(new Seller(user, pass));
 	}
 	
 
@@ -182,6 +193,7 @@ public class AuctionSys {
 		User u;
 		
 		switch(choice) {
+		// ToDo : Change to use addBuyer() and addSeller()
 		case 1: u = new Buyer(crUsername, crPassword);
 				try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("accounts.txt", true)))) {
 				    out.println("0, " + crUsername + ", " + crPassword);
