@@ -4,8 +4,8 @@ import java.util.*;
 
 public class Seller extends User implements Blockable {
 	
-	ArrayList<Item> items = new ArrayList<Item>();
-	ArrayList<Auction> auctions = new ArrayList<Auction>();
+	private ArrayList<Item> items = new ArrayList<Item>();
+	private ArrayList<Auction> auctions = new ArrayList<Auction>();
 	private boolean blocked = false;
 	private boolean sold = false;
 	
@@ -29,5 +29,21 @@ public class Seller extends User implements Blockable {
 	
 	public void setSold() {
 		this.sold = true;
+	}
+	public void addItem(String description) {
+		items.add(new Item(description));
+	}
+	public Item getItem(String description) {
+		for(Item i : items) {
+			if (i.getDescription() == description) {
+				return i;
+			}
+		}
+		return null;
+	}
+	
+	// ToDo : Find out how to return multiple objects from a method easily to not break encapsulation.
+	public ArrayList<Item> getItems() {
+		return items;
 	}
 }

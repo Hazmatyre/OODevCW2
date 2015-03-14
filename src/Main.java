@@ -19,9 +19,15 @@ public class Main {
 		menu.addBuyer("alex","123");
 		menu.addBuyer("haziq","123");
 
-
-
-		menu.startDisplay();
+		menu.getSellerByUsername("mramazon").addItem("Bike");
+		menu.getSellerByUsername("mramazon").addItem("Car");
+		menu.getSellerByUsername("ebay").addItem("Truck");
+		menu.getSellerByUsername("kyle").addItem("Plane");
+		System.out.println(menu
+				.getSellerByUsername("mramazon")
+				.getItem("Bike")
+				.getDescription());
+		//menu.startDisplay();
 		
 		
 		

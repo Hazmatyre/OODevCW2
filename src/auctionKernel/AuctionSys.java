@@ -25,15 +25,6 @@ public class AuctionSys {
 		allAuctions.add(new Auction (username,itemName,startPrice,reservePrice,startDate,endDate, status, description)); 
 	}
 	
-	public Seller getSellerByUsername(String uname) {
-		for(User x : users) {
-			if (x.getUsername() == uname) {
-				return (Seller) x;
-			}
-		}
-		return null;
-	}
-	
 	public void createAuctionDisplay() {
 		
 	}
@@ -52,10 +43,31 @@ public class AuctionSys {
 		*/
 	}
 	
-	private Auction getAuctionByDescription(String desc) {
+	/*	Seller's class responsibility to hold/fetch items, 
+	 *  but unable to find way to return multiple objects
+	 *  inside seller class to not break encapsulation.
+	 */
+	public void browseItems(Seller seller) {
+		System.out.println("You currently have the following items:");
+		for(Item i : seller.getItems()) {
+			if (i.isSold() == false) {
+				System.out.println(i.getDescription());
+			}
+		}
+	}
+	
+	public Auction getAuctionByDescription(String desc) {
 		for (Auction a : allAuctions) {
 			if (a.getItem().getDescription() == desc) {
 				return a;
+			}
+		}
+		return null;
+	}
+	public Seller getSellerByUsername(String uname) {
+		for(User x : users) {
+			if (x.getUsername() == uname) {
+				return (Seller) x;
 			}
 		}
 		return null;
@@ -190,25 +202,13 @@ public class AuctionSys {
 		System.out.println("2. Seller");
 		int choice = userIn(2);
 		
-		User u;
-		
 		switch(choice) {
 		// ToDo : Change to use addBuyer() and addSeller()
-		case 1: u = new Buyer(crUsername, crPassword);
-				try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("accounts.txt", true)))) {
-				    out.println("0, " + crUsername + ", " + crPassword);
-				}catch (IOException e) { 
-					System.out.println("Account file not found");
-				}
+		case 1: addBuyer(crUsername, crPassword);
 				System.out.println("Buyer Account Created");
 				buyerloginDisplay();	
 				break;
-		case 2: u = new Seller(crUsername, crPassword);
-				try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("accounts.txt", true)))) {
-				    out.println("1, " + crUsername + ", " + crPassword);
-				}catch (IOException e) {
-					System.out.println("Account file not found");
-				}
+		case 2: addSeller(crUsername, crPassword);
 				System.out.println("Seller Account Created");
 				sellerloginDisplay();
 				break;
