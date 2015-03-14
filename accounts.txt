@@ -1,18 +1,48 @@
-// 0 is a buyer, 1 is a seller
+// FORMAT USERS: username password
+// FORMAT AUCTIONS: username, startPrice, reservePrice, time auction closes after now(), status
+
+// Buyers
 1 matt 123
 1 alex 123
 1 haziq 123
 
-0 mramazon 123
+// Sellers
+mramazon 123
 	Bike
 	Car
-0 ebay 123
+	Boat
+ebay 123
 	Truck
-0 kyle 123
+kyle 123
 	Plane
-0 dennis 123
-0 conrad 123
-0 squall 123
-0 quistis 123
-0 seifer 123
+dennis 123
+	Tank
+conrad 123
+	GPU
+squall 123
+	Pistol
+quistis 123
+seifer 123
+
+// Auctions
+mramazon, Bike, 100.00, 150.00, 5 seconds, 0
+mramazon, Car, 200.00, 250.00, 10 seconds, 1
+mramazon, Boat, 300.00, 350.00, 15 seconds, 2
+ebay, Truck, 400.00, 450.00, 20 seconds, 3
+kyle, Plane, 500.00, 550.00, 25 seconds, P
+dennis, Tank, 600.00, 650.00, 30 seconds, C
+conrad, GPU, 700.00, 750.00, 35 seconds, 0
+squall, Pistol, 800.00, 850.00, 40 seconds, 0
+
+
+
+// OLD DATA
+user1 100.00 150.00 04/03/2015 10/03/2015 0
+user2 200.00 250.00 05/03/2015 11/03/2015 1
+user3 300.00 350.00 06/03/2015 12/03/2015 2
+user4 400.00 450.00 07/03/2015 13/03/2015 3 
+user5 500.00 550.00 08/03/2015 14/03/2015 P
+user6 600.00 650.00 09/03/2015 14/03/2015 C
+user7 700.00 750.00 09/03/2015 14/03/2015 0
+user8 800.00 850.00 09/03/2015 14/03/2015 0
 

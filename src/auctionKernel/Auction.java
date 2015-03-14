@@ -7,83 +7,98 @@ import java.util.*;
 
 public class Auction implements Blockable {
 	
-	private ArrayDeque<Bid> bids = new ArrayDeque<Bid>(); //Use as a stack!!
+	private ArrayDeque<Bid> bids = new ArrayDeque<Bid>(); // NOTE : Use as a stack!!
 	private ArrayList<Buyer> buyers = new ArrayList<Buyer>();
 	private Seller seller;
-	private String itemName, description;
 	private Item item;
-	DecimalFormat df = new DecimalFormat("#.00"); 
-	
 	private double startPrice, reservePrice;
-	private LocalDateTime startDate, closeDate; //CHANGED TO STRING ---- CHANGE BACK BEFORE SUBMITTING
-	private String status;
+	private LocalDateTime startDate, closeDate;
+	private char status;
 	//U = under construction, P = pending
 	//0 = started, 1 = blocked, 2 = sold, 3 = not sold
 	//C = closed
 	
-	public Auction(Seller seller, String itemName, Double startPrice, Double reservePrice, LocalDateTime startDate, LocalDateTime closeDate, String status, String description){ //Constructor
+	DecimalFormat df = new DecimalFormat("#.00");
+	
+	public Auction(Seller seller, Item item, double startPrice, double reservePrice, 
+			LocalDateTime startDate, LocalDateTime closeDate, char status){
 		this.seller = seller;
-		this.itemName = itemName;
+		this.item = item;
 		this.startPrice = startPrice;
 		this.reservePrice = reservePrice;
 		this.startDate = startDate;
 		this.closeDate = closeDate;
 		this.status = status;
-		this.description = description;
 	}
 	
-	public void placeBid() {
-		
+	// Note : Constructor overload to handle dates as strings just in case.
+	public Auction(Seller seller, String itemDescription, double startPrice, double reservePrice,
+			String startDate, String closeDate, char status) {
+		this.seller = seller;
+		this.item = new Item(itemDescription);
+		this.startPrice = startPrice;
+		this.reservePrice = reservePrice;
+		this.startDate = LocalDateTime.parse(startDate);
+		this.closeDate = LocalDateTime.parse(closeDate);
+		this.status = status;
 	}
 	
+	public void placeBid(double amount, Buyer who) {
+		bids.push(new Bid(amount, who));
+	}
 	public void verify() {
-		this.setStatus("0");
+		this.setStatus('0');
 	}
-	
 	public void close() {
-		this.setStatus("C");
+		this.setStatus('C');
 	}
-	
 	@Override
 	public boolean isBlocked() {
-		if (this.getStatus() == "1")
+		if (this.getStatus() == '1')
 			return true;
 		else
 			return false;
 	}
-	
 	@Override
 	public void setBlocked() {
-		if (this.getStatus() == "0") {
-			this.setStatus("1");
+		if (this.getStatus() == '0') {
+			this.setStatus('1');
 		}
 		else {
 			statusPrimer();
 		}	
 	}
 	public void setUnblocked() {
-		if (this.getStatus() == "1") {
-			this.setStatus("0");
+		if (this.getStatus() == '1') {
+			this.setStatus('0');
 		}
 		else {
 			statusPrimer();
 		}
 	}
-	public LocalDateTime stringToDate(String date) {
-		return LocalDateTime.parse(date);
+	public double getCurrentBid() {
+		return bids.peek().getAmount();
 	}
-	
-	//Status primer
-	private void statusPrimer() {
+	public void statusPrimer() {
 		System.out.println("Cannot block/unblock auction: ");
 		switch (this.status) {
-		case "U":System.out.print("This auction's currently under construction.");
-		case "P":System.out.print("This auction's currently pending.");
-		case "C":System.out.print("This auction's already closed.");
+			case 'U':System.out.print("This auction's currently under construction.");
+			case 'P':System.out.print("This auction's currently pending.");
+			case 'C':System.out.print("This auction's already closed.");
 		}
 	}
 	
-	//Set and Gets
+	
+	//Sets & Gets
+	public Seller getSeller(){
+		return this.seller;
+	}
+	public void setItem(Item item) {
+		this.item = item;
+	}
+	public Item getItem() {
+		return this.item;
+	}
 	public void setStartPrice(double price) {
 		this.startPrice = price;
 	}
@@ -96,35 +111,30 @@ public class Auction implements Blockable {
 	public double getReservePrice() {
 		return this.reservePrice;
 	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
 	public LocalDateTime getStartDate() {
 		return this.startDate;
 	}
-	
 	public LocalDateTime getCloseDate() {
 		return this.closeDate;
 	}
-	public String getStatus() {
+	public char getStatus() {
 		return this.status;
 	}
-	public void setItem(Item item) {
-		this.item = item;
+	public void setStatus(char status) {
+		this.status = status;
 	}
-	public Item getItem() {
-		return this.item;
-	}
-	public Seller getSeller(){
-		return this.seller;
+	public boolean getreserveMet() {
+		if (this.reservePrice < bids.peek().getAmount()) {
+			return false;
+		}
+		return true;
 	}
 
-	
 	@Override
 	public String toString(){
-		return this.getSeller() + " " + df.format(this.getStartPrice()) + " " + df.format(this.getReservePrice()) + " " + this.getStartDate() + " " + this.getCloseDate() + " " + this.getStatus();
+		return this.getSeller() + " " + df.format(this.getStartPrice()) + " " 
+				+ df.format(this.getReservePrice()) + " " + this.getStartDate() + " " 
+				+ this.getCloseDate() + " " + this.getStatus();
 	}	
 	
 }

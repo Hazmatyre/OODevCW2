@@ -2,27 +2,24 @@ package auctionKernel;
 
 import java.time.LocalDateTime;
 
-// ToDo : Interface for LocalDateTime
 public class Bid {
 	private double amount;
 	private Buyer who;
 	private LocalDateTime when;
 	
-	//Sets & Gets
-	public void setAmount(double amount) {
+	public Bid(double amount, Buyer who) {
 		this.amount = amount;
+		this.who = who;
+		when = LocalDateTime.now();
 	}
+	
+	//Sets & Gets
+	// NOTE : No sets because bids should never ever be modified.
 	public double getAmount() {
 		return this.amount;
 	}
-	public void setWho(Buyer who) {
-		this.who = who;
-	}
 	public Buyer getWho() {
 		return this.who;
-	}
-	public void setWhen(LocalDateTime when) {
-		this.when = when;
 	}
 	public LocalDateTime getWhen() {
 		return this.when;
