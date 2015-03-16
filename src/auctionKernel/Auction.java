@@ -124,10 +124,10 @@ public class Auction implements Blockable {
 		this.status = status;
 	}
 	public boolean getreserveMet() {
-		if (this.reservePrice < bids.peek().getAmount()) {
-			return false;
+		if (!bids.isEmpty() && this.reservePrice < bids.peek().getAmount()) {
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	@Override

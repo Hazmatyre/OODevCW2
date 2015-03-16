@@ -28,11 +28,15 @@ public class Main {
 		menu.getSellerByUsername("kyle").addItem("Plane");
 		menu.getSellerByUsername("dennis").addItem("Tank");
 		menu.getSellerByUsername("conrad").addItem("GPU");
+		menu.getSellerByUsername("squall").addItem("Pistol");
+		menu.getSellerByUsername("squall").addItem("PC");
+		
+		
 		
 		menu.placeAuction(menu.getSellerByUsername("mramazon"), 
 				menu.getSellerByUsername("mramazon").getItem("Bike"), 
-				100.00, 150.00, LocalDateTime.now(), 
-				LocalDateTime.now().plusSeconds(5), '0');
+				100.00, 150.00, LocalDateTime.now().minusSeconds(5), 
+				LocalDateTime.now(), '0');
 		
 		menu.placeAuction(menu.getSellerByUsername("mramazon"), 
 				menu.getSellerByUsername("mramazon").getItem("Car"), 
@@ -69,8 +73,12 @@ public class Main {
 				800.00, 850.00, LocalDateTime.now(), 
 				LocalDateTime.now().plusSeconds(40), '0');
 		
+		menu.placeAuction(menu.getSellerByUsername("squall"), 
+				menu.getSellerByUsername("squall").getItem("PC"), 
+				800.00, 850.00, LocalDateTime.now(), 
+				LocalDateTime.now().plusSeconds(5), '0');
 		
-		System.out.println(menu.allAuctions.size());
+		//menu.getAuctionByDescription("PC").placeBid(1000.00, menu.getBuyerByUsername("matt")); - Place Bid
 		
 		//Threading - http://www.tutorialspoint.com/java/java_multithreading.htm -------------------------- REMOVE BEFORE SUBMISSION
 		try {

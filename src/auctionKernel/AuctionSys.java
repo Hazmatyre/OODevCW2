@@ -124,6 +124,15 @@ public class AuctionSys
 		return null;
 	}
 	
+	public Buyer getBuyerByUsername(String uname) {
+		for(User x : users) {
+			if (x.getUsername() == uname) {
+				return (Buyer) x;
+			}
+		}
+		return null;
+	}
+	
 	public void addBuyer(String user, String pass) {
 		users.add(new Buyer(user, pass));
 	}
