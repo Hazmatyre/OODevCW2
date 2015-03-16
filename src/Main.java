@@ -23,8 +23,11 @@ public class Main {
 
 		menu.getSellerByUsername("mramazon").addItem("Bike");
 		menu.getSellerByUsername("mramazon").addItem("Car");
+		menu.getSellerByUsername("mramazon").addItem("Boat");
 		menu.getSellerByUsername("ebay").addItem("Truck");
 		menu.getSellerByUsername("kyle").addItem("Plane");
+		menu.getSellerByUsername("dennis").addItem("Tank");
+		menu.getSellerByUsername("conrad").addItem("GPU");
 		
 		menu.placeAuction(menu.getSellerByUsername("mramazon"), 
 				menu.getSellerByUsername("mramazon").getItem("Bike"), 
@@ -66,12 +69,22 @@ public class Main {
 				800.00, 850.00, LocalDateTime.now(), 
 				LocalDateTime.now().plusSeconds(40), '0');
 		
-		/*
-		System.out.println(menu
-			.getSellerByUsername("mramazon")
-			.getItem("Car")
-			.getDescription());
-		*/
+		
+		System.out.println(menu.allAuctions.size());
+		
+		//Threading - http://www.tutorialspoint.com/java/java_multithreading.htm -------------------------- REMOVE BEFORE SUBMISSION
+		try {
+			AuctionCheck R1 = new AuctionCheck("Thread 1", menu);
+			R1.start();
+		} catch (InterruptedException e) { e.printStackTrace(); }
+		
+		
+		
+		//System.out.println(menu
+		//	.getSellerByUsername("mramazon")
+		//	.getItem("Car")
+		//	.getDescription());
+		
 		
 		//menu.startDisplay();
 		//menu.placeAuction("user1", "TV", 100.00, 150.00, 04/03/2015, 10/03/2015, "0", "POS");

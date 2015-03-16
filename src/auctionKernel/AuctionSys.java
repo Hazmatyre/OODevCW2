@@ -1,24 +1,20 @@
 package auctionKernel;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
-import java.util.InputMismatchException;
-
-import auctionKernel.*;
-
 import java.util.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class AuctionSys {
+public class AuctionSys
+{
 
 	//USED FOR IMPORTING TEST DATA ##IGNORE
 	Scanner s;
 	PrintWriter p; // CHANGE TO BUFFERED WRITER AT SOME POINT
-	
 	Scanner keyIn = new Scanner(System.in);
 	
-	List<Auction> allAuctions = new ArrayList<Auction>();
+	public List<Auction> allAuctions = new LinkedList<Auction>();
 	List<User> users = new ArrayList<User>(); 
 	int lineCount = 0;
 	
@@ -33,7 +29,6 @@ public class AuctionSys {
 		double startPrice, reservePrice;
 		LocalDateTime startDate, endDate;
 		boolean pricePicked = false;
-		
 		String tempInput;
 	
 		// Add new item name, price, reserve, close date > 7 days. Set as pending, then verify to activate
@@ -119,6 +114,7 @@ public class AuctionSys {
 		}
 		return null;
 	}
+	
 	public Seller getSellerByUsername(String uname) {
 		for(User x : users) {
 			if (x.getUsername() == uname) {
@@ -177,6 +173,7 @@ public class AuctionSys {
 				signupDisplay();
 				break;
 		case 4: System.exit(0);
+				break;
 		}
 	}
 	

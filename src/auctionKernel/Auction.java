@@ -132,7 +132,7 @@ public class Auction implements Blockable {
 
 	@Override
 	public String toString(){
-		return this.getSeller() + " " + df.format(this.getStartPrice()) + " " 
+		return this.getItem().getDescription() + " " +  this.getSeller().getUsername() + " " + df.format(this.getStartPrice()) + " " 
 				+ df.format(this.getReservePrice()) + " " + this.getStartDate() + " " 
 				+ this.getCloseDate() + " " + this.getStatus();
 	}	
