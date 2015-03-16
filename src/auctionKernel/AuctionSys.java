@@ -1,6 +1,7 @@
 package auctionKernel;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -22,23 +23,30 @@ public class AuctionSys
 	public void placeAuction(Seller seller, Item item, double startPrice, double reservePrice, 
 			LocalDateTime startDate, LocalDateTime endDate, char status) {
 		allAuctions.add(new Auction (seller,item,startPrice,reservePrice,startDate,endDate, status)); 
-	}
-	
-	// TODO add which user made the auction
-	
-	
-	
+	}	
 
 	public void browseAuction() {
 		//Need to check the auction status before displaying
 		for(Auction a : allAuctions) {
+			String reserve = "Reserve not met";
+			if (a.getreserveMet()){
+				reserve = "Reserve met";
+			}
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+			//LocalDateTime dateTime = a.getCloseDate().format("yyyy-MM-dd HH:mm");
+			//String remaining = 
 			if (a.getCloseDate().isAfter(LocalDateTime.now())) {
-				System.out.printf(a.getItem().getDescription() + " -- £" + a.getCurrentBid() + "\n"); // Browse format for when the proper auction object/list is done
+				System.out.printf(a.getItem().getDescription() + " - £" + a.getCurrentBid() + 
+						" Ends: " + a.getCloseDate() +" " + reserve + "\n"); // Browse format for when the proper auction object/list is done
 			}
 		}
 		/* Browse format: 
 		 * TV SET - £100 - Ends: 30/03/2015, reserve not met  */
 	}
+	
+
+	
+	
 	
 	/*	Seller's class responsibility to hold/fetch items, 
 	 *  but unable to find way to return multiple objects

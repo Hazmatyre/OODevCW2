@@ -11,7 +11,6 @@ public class AuctionCheck implements Runnable {
 	public AuctionCheck(String name, AuctionSys a){
 		this.name = name;
 		this.a = a;
-		System.out.println("Creating" + name);
 	}
 
 	public void checkAuctions(){ //Rename?
@@ -30,10 +29,9 @@ public class AuctionCheck implements Runnable {
 	
 	@Override
 	public void run() {
-		System.out.println("Running" + name);
 		try {
 				//System.out.println("Thread: " + name);
-				checkAuctions();
+				//checkAuctions();
 				Thread.sleep(50);
 		} catch (InterruptedException e) { e.printStackTrace(); }
 	}

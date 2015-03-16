@@ -28,6 +28,7 @@ public class Main {
 		menu.getSellerByUsername("kyle").addItem("Plane");
 		menu.getSellerByUsername("dennis").addItem("Tank");
 		menu.getSellerByUsername("conrad").addItem("GPU");
+		menu.getSellerByUsername("squall").addItem("Pistol");
 		
 		//menu.placeAuction(seller, item, startPrice, reservePrice, startDate, endDate, status);
 		
@@ -73,7 +74,7 @@ public class Main {
 		
 
 		
-		System.out.println(menu.allAuctions.size());
+		//System.out.println(menu.allAuctions.size());
 		
 		//Threading - http://www.tutorialspoint.com/java/java_multithreading.htm -------------------------- REMOVE BEFORE SUBMISSION
 		try {

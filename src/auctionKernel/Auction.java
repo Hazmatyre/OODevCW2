@@ -3,6 +3,7 @@ package auctionKernel;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Auction implements Blockable {
@@ -126,16 +127,18 @@ public class Auction implements Blockable {
 		return this.startDate;
 	}
 	public LocalDateTime getCloseDate() {
-		return this.closeDate;
+		//LocalDate date = closeDate.toLocalDate();
+		closeDate.format(DateTimeFormatter.ofPattern("dd::MMM::ss"));
+		return closeDate;
 	}
 	public char getStatus() {
 		return this.status;
 	}
 	public boolean getreserveMet() {
-		if (this.reservePrice < bids.peek().getAmount()) {
-			return false;
+		if (!bids.isEmpty() && this.reservePrice < bids.peek().getAmount()) {
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 	@Override
