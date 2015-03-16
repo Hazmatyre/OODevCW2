@@ -26,6 +26,8 @@ public class Main {
 		menu.getSellerByUsername("ebay").addItem("Truck");
 		menu.getSellerByUsername("kyle").addItem("Plane");
 		
+		//menu.placeAuction(seller, item, startPrice, reservePrice, startDate, endDate, status);
+		
 		menu.placeAuction(menu.getSellerByUsername("mramazon"), 
 				menu.getSellerByUsername("mramazon").getItem("Bike"), 
 				100.00, 150.00, LocalDateTime.now(), 
@@ -71,9 +73,9 @@ public class Main {
 			.getSellerByUsername("mramazon")
 			.getItem("Car")
 			.getDescription());
-		*/
 		
-		//menu.startDisplay();
+		*/
+		menu.startDisplay();
 		//menu.placeAuction("user1", "TV", 100.00, 150.00, 04/03/2015, 10/03/2015, "0", "POS");
 
 		
