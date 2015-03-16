@@ -16,7 +16,7 @@ public class AuctionCheck implements Runnable {
 
 	public void checkAuctions(){ //Rename?
 		for(int i = 0; i < a.allAuctions.size()-1; i++){
-				 if(auction.getCloseDate().isAfter(LocalDateTime.now())){auction.setStatus('C');}
+				// if(auction.getCloseDate().isAfter(LocalDateTime.now())){auction.setStatus('C');}
 			System.out.println(a.allAuctions.get(i));
 		}
 	}

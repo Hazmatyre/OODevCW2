@@ -29,6 +29,8 @@ public class Main {
 		menu.getSellerByUsername("dennis").addItem("Tank");
 		menu.getSellerByUsername("conrad").addItem("GPU");
 		
+		//menu.placeAuction(seller, item, startPrice, reservePrice, startDate, endDate, status);
+		
 		menu.placeAuction(menu.getSellerByUsername("mramazon"), 
 				menu.getSellerByUsername("mramazon").getItem("Bike"), 
 				100.00, 150.00, LocalDateTime.now(), 
@@ -69,6 +71,7 @@ public class Main {
 				800.00, 850.00, LocalDateTime.now(), 
 				LocalDateTime.now().plusSeconds(40), '0');
 		
+
 		
 		System.out.println(menu.allAuctions.size());
 		
@@ -85,8 +88,16 @@ public class Main {
 		//	.getItem("Car")
 		//	.getDescription());
 		
+
+		/*
+		System.out.println(menu
+			.getSellerByUsername("mramazon")
+			.getItem("Car")
+			.getDescription());
+		refs/heads/Mattmerge
 		
-		//menu.startDisplay();
+		*/
+		menu.startDisplay();
 		//menu.placeAuction("user1", "TV", 100.00, 150.00, 04/03/2015, 10/03/2015, "0", "POS");
 
 		

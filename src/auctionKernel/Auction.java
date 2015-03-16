@@ -76,9 +76,10 @@ public class Auction implements Blockable {
 			statusPrimer();
 		}
 	}
-	public double getCurrentBid() {
-		return bids.peek().getAmount();
+	public void setStatus(char status) {
+		this.status = status;
 	}
+
 	public void statusPrimer() {
 		System.out.println("Cannot block/unblock auction: ");
 		switch (this.status) {
@@ -88,26 +89,36 @@ public class Auction implements Blockable {
 		}
 	}
 	
-	
 	//Sets & Gets
-	public Seller getSeller(){
-		return this.seller;
-	}
 	public void setItem(Item item) {
 		this.item = item;
-	}
-	public Item getItem() {
-		return this.item;
-	}
-	public void setStartPrice(double price) {
-		this.startPrice = price;
-	}
-	public double getStartPrice() {
-		return this.startPrice;
 	}
 	public void setReservePrice(double price) {
 		this.reservePrice = price;
 	}
+
+	public void setStartPrice(double price) {
+		this.startPrice = price;
+	}
+
+
+	public Seller getSeller(){
+		return this.seller;
+	}
+
+	public Item getItem() {
+		return this.item;
+	}
+	public double getStartPrice() {
+		return this.startPrice;
+	}
+	public double getCurrentBid() {
+		if (bids.isEmpty()){
+			return getStartPrice();
+		}
+		return bids.peek().getAmount();
+	}
+
 	public double getReservePrice() {
 		return this.reservePrice;
 	}
@@ -119,9 +130,6 @@ public class Auction implements Blockable {
 	}
 	public char getStatus() {
 		return this.status;
-	}
-	public void setStatus(char status) {
-		this.status = status;
 	}
 	public boolean getreserveMet() {
 		if (this.reservePrice < bids.peek().getAmount()) {

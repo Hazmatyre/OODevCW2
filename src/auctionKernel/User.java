@@ -1,6 +1,6 @@
 package auctionKernel;
 
-public abstract class User {
+public abstract class User extends Exception {
 	protected String username, password;
 	
 	public User(String user, String pass) {
@@ -9,7 +9,10 @@ public abstract class User {
 	}
 	
 	// Keep check password in for now, might add more advanced password utility.
-	public boolean checkPassword() {
+	public boolean checkPassword(String password) {
+		if (password.equals(this.password)){
+			return true;
+		}
 		return false;
 	}
 	
