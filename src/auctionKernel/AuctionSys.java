@@ -14,6 +14,7 @@ public class AuctionSys
 	Scanner s;
 	PrintWriter p; // CHANGE TO BUFFERED WRITER AT SOME POINT
 	Scanner keyIn = new Scanner(System.in);
+	private boolean loggedIn = false;
 	
 	public List<Auction> allAuctions = new LinkedList<Auction>();
 	List<User> users = new ArrayList<User>(); 
@@ -27,6 +28,7 @@ public class AuctionSys
 
 	public void browseAuction() {
 		//Need to check the auction status before displaying
+		int i = 1;
 		for(Auction a : allAuctions) {
 			String reserve = "Reserve not met";
 			if (a.getreserveMet()){
@@ -36,12 +38,20 @@ public class AuctionSys
 			//LocalDateTime dateTime = a.getCloseDate().format("yyyy-MM-dd HH:mm");
 			//String remaining = 
 			if (a.getCloseDate().isAfter(LocalDateTime.now())) {
-				System.out.printf(a.getItem().getDescription() + " - £" + a.getCurrentBid() + 
+				System.out.printf(i + ". " +a.getItem().getDescription() + " - £" + a.getCurrentBid() + 
 						" Ends: " + a.getCloseDate() +" " + reserve + "\n"); // Browse format for when the proper auction object/list is done
+				i++;
 			}
 		}
 		/* Browse format: 
 		 * TV SET - £100 - Ends: 30/03/2015, reserve not met  */
+	}
+	public int activeAuctionCount() {
+		int active = 0;
+		for (Auction a : allAuctions) {
+			active++;
+		}
+		return active;
 	}
 	
 
@@ -101,6 +111,10 @@ public class AuctionSys
 		public int userIn(int max){
 			int switcher = 0;
 			String input;
+			if (loggedIn){
+				max += 1;
+				System.out.println(max + ". Logout");
+			}
 			while (switcher < 1 || switcher > max){
 				input = keyIn.nextLine(); 
 				try {
@@ -112,6 +126,9 @@ public class AuctionSys
 				if (switcher < 1 || switcher > max){
 					System.out.println("Enter a number between 1 and " + max);
 				}
+			}
+			if(switcher == max){
+				loggedIn = false;
 			}
 			return switcher;
 	}
@@ -172,6 +189,21 @@ public class AuctionSys
 		}
 
 		} }
+	
+	// TODO : Seller never detected!!!!!!!!!!
+	private boolean readAccount(String username, String password) throws Exception {
+		for (User a : users){
+			if (username.equals(a.getUsername()) && a.checkPassword(password)) {
+				System.out.println("Login Successful");
+				if (a.getClass().isInstance(Seller.class)){
+					return false;
+				} else {
+					return true;
+				}
+			}
+		} 
+		throw new ExCatcher("AccountNotFound");
+	}
 
 	// TODO add which user made the auction
 	private void createAuctionDisplay() {
@@ -203,20 +235,6 @@ public class AuctionSys
 		//placeAuction(username,itemName,startPrice,reservePrice,startDate,endDate,status,description);
 	}
 
-	private boolean readAccount(String username, String password) throws Exception {
-		for (User a : users){
-			if (username.equals(a.getUsername()) && a.checkPassword(password)) {
-				System.out.println("Login Successful");
-				if (a.getClass().isInstance(Seller.class)){
-					return false;
-				} else {
-					return true;
-				}
-			}
-		} 
-		throw new ExCatcher("AccountNotFound");
-	}
-
 	private void loginDisplay() {
 		String username,password;
 		System.out.println("Enter username:");
@@ -224,9 +242,11 @@ public class AuctionSys
 		System.out.println("Enter password:");
 		password = keyIn.nextLine();
 		try {
-			if (readAccount(username, password)){
+			if (readAccount(username, password) == true){
+				loggedIn = true;
 				buyerloginDisplay();
 			} else {
+				loggedIn = true;
 				sellerloginDisplay();
 			}
 		} catch (Exception e) {
@@ -235,44 +255,53 @@ public class AuctionSys
 	}
 
 	private void buyerloginDisplay(){
-		int choice;
-		System.out.println("1. Browse auctions");
-		System.out.println("2. View bids");
-		System.out.println("3. Place bid");
-		// placebid takes you to browse -> select auction to place bid on
-		choice = userIn(3);
+		int choice = 0;
+		while(loggedIn) {
+			System.out.println("Buyer Account Menu:");
+			System.out.println("1. Browse auctions");
+			System.out.println("2. View bids");
+			System.out.println("3. Place bid");
+			choice = userIn(3);
 		
-		switch(choice){
-			case 1: browseAuction();
-					break;
-			case 2: 
-					break;
-			case 3: // maybe print browse auctions, then ask for a int return for the auction number?
-					break;
+			// placebid takes you to browse -> select auction to place bid on
+			switch(choice){
+				case 1: browseAuction();
+						break;
+				case 2: 
+						break;
+				case 3: // maybe print browse auctions, then ask for a int return for the auction number?
+						browseAuction();
+						System.out.println("Enter auction number to bid on:");
+						userIn(activeAuctionCount());
+						break;
+			}
 		}
 	}
 	
 	private void sellerloginDisplay() {
-		int choice;
-		System.out.println("1. Start new auction");
-		System.out.println("2. View my current auctions");
-		System.out.println("3. View pending auctions");
-		System.out.println("4. Add new item to stock");
-		choice = userIn(4);
+		int choice = 0;
+		while (loggedIn){
+			System.out.println("Seller Account Menu:");
+			System.out.println("1. Start new auction");
+			System.out.println("2. View my current auctions");
+			System.out.println("3. View pending auctions");
+			System.out.println("4. Add new item to stock");
+			choice = userIn(4);
 		
-		switch(choice){
-			case 1: createAuctionDisplay();
-					break;
-			case 2: 
-					break;
-			case 3: 
-					break;
-			case 4: 
-					break;
+			switch(choice){
+				case 1: createAuctionDisplay();
+						break;
+				case 2: 
+						break;
+				case 3: 
+						break;
+				case 4: 
+						break;
+			}
 		}
 	}
 	
-	// adds a new user, they can type return to cancel account creation.
+	// adds a new user, they cant type return to cancel account creation.
 	private void signupDisplay() {
 		System.out.println("Sign up:");
 		String crUsername = keyIn.next();
