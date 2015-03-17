@@ -40,7 +40,7 @@ public class Main {
 		menu.placeAuction(menu.getSellerByUsername("mramazon"), 
 				menu.getSellerByUsername("mramazon").getItem("Car"), 
 				200.00, 250.00, LocalDateTime.now(), 
-				LocalDateTime.now().plusSeconds(10), '1');
+				LocalDateTime.now().plusSeconds(10), '0');
 		
 		menu.placeAuction(menu.getSellerByUsername("mramazon"), 
 				menu.getSellerByUsername("mramazon").getItem("Boat"), 
@@ -50,7 +50,7 @@ public class Main {
 		menu.placeAuction(menu.getSellerByUsername("ebay"), 
 				menu.getSellerByUsername("ebay").getItem("Truck"), 
 				400.00, 450.00, LocalDateTime.now(), 
-				LocalDateTime.now().plusSeconds(20), '3');
+				LocalDateTime.now().plusSeconds(20), '0');
 		
 		menu.placeAuction(menu.getSellerByUsername("kyle"), 
 				menu.getSellerByUsername("kyle").getItem("Plane"), 

@@ -15,6 +15,7 @@ public class AuctionSys
 	PrintWriter p; // CHANGE TO BUFFERED WRITER AT SOME POINT
 	Scanner keyIn = new Scanner(System.in);
 	private boolean loggedIn = false;
+	private User currentUser; 
 	
 	public List<Auction> allAuctions = new LinkedList<Auction>();
 	List<User> users = new ArrayList<User>(); 
@@ -23,12 +24,14 @@ public class AuctionSys
 
 	public void placeAuction(Seller seller, Item item, double startPrice, double reservePrice, 
 			LocalDateTime startDate, LocalDateTime endDate, char status) {
-		allAuctions.add(new Auction (seller,item,startPrice,reservePrice,startDate,endDate, status)); 
-	}	
+		Auction a = new Auction(seller,item,startPrice,reservePrice,startDate,endDate, status);
+		allAuctions.add(a); 
+		seller.addAuction(a);
+	}
 
 	public void browseAuction() {
 		//Need to check the auction status before displaying
-		int i = 1;
+		int aucNumber = 1;
 		for(Auction a : allAuctions) {
 			String reserve = "Reserve not met";
 			if (a.getreserveMet()){
@@ -38,9 +41,9 @@ public class AuctionSys
 			//LocalDateTime dateTime = a.getCloseDate().format("yyyy-MM-dd HH:mm");
 			//String remaining = 
 			if (a.getCloseDate().isAfter(LocalDateTime.now())) {
-				System.out.printf(i + ". " +a.getItem().getDescription() + " - £" + a.getCurrentBid() + 
+				System.out.printf(aucNumber + ". " +a.getItem().getDescription() + " - £" + a.getCurrentBid() + 
 						" Ends: " + a.getCloseDate() +" " + reserve + "\n"); // Browse format for when the proper auction object/list is done
-				i++;
+				aucNumber++;
 			}
 		}
 		/* Browse format: 
@@ -49,7 +52,9 @@ public class AuctionSys
 	public int activeAuctionCount() {
 		int active = 0;
 		for (Auction a : allAuctions) {
-			active++;
+			if (a.getCloseDate().isAfter(LocalDateTime.now())) {
+				active++;
+			}
 		}
 		return active;
 	}
@@ -73,7 +78,7 @@ public class AuctionSys
 	
 	public Auction getAuctionByDescription(String desc) {
 		for (Auction a : allAuctions) {
-			if (a.getItem().getDescription() == desc) {
+			if (a.getItem().getDescription().equals(desc)) {
 				return a;
 			}
 		}
@@ -82,8 +87,16 @@ public class AuctionSys
 	
 	public Seller getSellerByUsername(String uname) {
 		for(User x : users) {
-			if (x.getUsername() == uname) {
+			if (x.getUsername().equals(uname)) {
 				return (Seller) x;
+			}
+		}
+		return null;
+	}
+	public Buyer getBuyerByUsername(String uname) {
+		for(User x : users) {
+			if (x.getUsername().equals(uname)) {
+				return (Buyer) x;
 			}
 		}
 		return null;
@@ -128,6 +141,7 @@ public class AuctionSys
 				}
 			}
 			if(switcher == max){
+				currentUser = null;
 				loggedIn = false;
 			}
 			return switcher;
@@ -191,11 +205,11 @@ public class AuctionSys
 		} }
 	
 	// TODO : Seller never detected!!!!!!!!!!
-	private boolean readAccount(String username, String password) throws Exception {
+	private boolean readAccount(String username, String password) throws ExCatcher {
 		for (User a : users){
 			if (username.equals(a.getUsername()) && a.checkPassword(password)) {
 				System.out.println("Login Successful");
-				if (a.getClass().isInstance(Seller.class)){
+				if (a.getClass() == Seller.class){
 					return false;
 				} else {
 					return true;
@@ -204,22 +218,64 @@ public class AuctionSys
 		} 
 		throw new ExCatcher("AccountNotFound");
 	}
+	
+	private void itemToStock(){
+		String description;
+		Item currentItem;
+		Seller currentSeller = (Seller)currentUser;
+		System.out.println("Enter the name of your item.");
+		description = keyIn.nextLine();
+		currentSeller.addItem(description);
+		currentItem = currentSeller.getItem(description);
+		System.out.println("Item added to your stock.");
+	}
 
-	// TODO add which user made the auction
+
 	private void createAuctionDisplay() {
-		String itemName, status, description;
+		Seller currentSeller = (Seller)currentUser;
+		String status, description;
+		Item currentItem = null;
 		double startPrice, reservePrice;
 		LocalDateTime startDate, endDate;
-		boolean pricePicked = false;
+		boolean itemPicked = false;
 		
 		String tempInput;
 	
 		// Add new item name, price, reserve, close date > 7 days. Set as pending, then verify to activate
-		System.out.println("Create an Auction:");
-		System.out.println("What is the name of the item?");
-		itemName = keyIn.nextLine();
-		System.out.println("Give a short description of the item:");
-		itemName = keyIn.nextLine();
+		
+		
+		System.out.println("Create an Auction: ");
+		if (!currentSeller.getItems().isEmpty()) {
+			while(itemPicked == false) {
+				System.out.println("Your Items:");
+				for (Item i : currentSeller.getItems()) {
+					System.out.println(i.getDescription());
+				}
+				System.out.println("Enter item name");
+				description = keyIn.nextLine();
+				for (Item i : currentSeller.getItems()) {
+					if (i.getDescription().equals(description)) { 
+						currentItem = currentSeller.getItem(description);
+						System.out.println("Item Selected");
+						itemPicked = true;
+						break;
+					}
+				}
+			}
+		} else {
+			System.out.println("Item list empty, go to create items?");
+			System.out.println("1. Yes");
+			System.out.println("2. No");
+			int pick = userIn(2);
+			if (pick == 1) {
+				itemToStock();
+				createAuctionDisplay();
+				return;
+			} else {
+				return;
+			} 
+		}
+		
 		System.out.println("Item start price £(xx.xx):");
 		startPrice = priceIn();
 		System.out.println("Set item reserve price:");
@@ -227,6 +283,7 @@ public class AuctionSys
 		
 		System.out.println("Enter closing date (DDMMYYYY)");
 		
+		// here set auction pending
 		System.out.println("Auction pending, activate now?");
 		System.out.println("1. Yes");
 		System.out.println("2. No");
@@ -234,7 +291,8 @@ public class AuctionSys
 		
 		//placeAuction(username,itemName,startPrice,reservePrice,startDate,endDate,status,description);
 	}
-
+	
+	// TODO the exception catch prints sometimes while moving back to startDisplay(), maybe make more specific catch
 	private void loginDisplay() {
 		String username,password;
 		System.out.println("Enter username:");
@@ -244,42 +302,59 @@ public class AuctionSys
 		try {
 			if (readAccount(username, password) == true){
 				loggedIn = true;
-				buyerloginDisplay();
+				currentUser = getBuyerByUsername(username);
+				buyerloginDisplay();	
 			} else {
 				loggedIn = true;
+				currentUser = getSellerByUsername(username);
 				sellerloginDisplay();
 			}
-		} catch (Exception e) {
+		} catch (ExCatcher E) {
 			System.out.println("Username or password incorrect \n");
 		}		
 	}
 
 	private void buyerloginDisplay(){
+		Buyer currentBuyer = (Buyer)currentUser;
 		int choice = 0;
 		while(loggedIn) {
 			System.out.println("Buyer Account Menu:");
 			System.out.println("1. Browse auctions");
-			System.out.println("2. View bids");
-			System.out.println("3. Place bid");
-			choice = userIn(3);
+			System.out.println("2. Place bid");
+			choice = userIn(2);
 		
 			// placebid takes you to browse -> select auction to place bid on
 			switch(choice){
 				case 1: browseAuction();
 						break;
-				case 2: 
-						break;
-				case 3: // maybe print browse auctions, then ask for a int return for the auction number?
+				case 2: // maybe print browse auctions, then ask for a int return for the auction number?
 						browseAuction();
-						System.out.println("Enter auction number to bid on:");
-						userIn(activeAuctionCount());
+						System.out.println("Enter item description:");
+						Auction auction = getAuctionByDescription(keyIn.nextLine());
+						System.out.println("Enter your bidding price:");
+						System.out.println(auction.getItem().getDescription() + ", Current Bid £" + auction.getCurrentBid());
+						System.out.println("You can bid: ");
+						System.out.println("1. £" + (auction.getUpperBidInc() + auction.getCurrentBid()));
+						System.out.println("2. £" + (auction.getLowerBidInc() + auction.getCurrentBid()));
+						int bidChoice = userIn(2);
+						if (bidChoice == 1) {
+							auction.placeBid(true, (Buyer)currentUser);	
+							System.out.println("Bid Successful");
+						} else {
+							auction.placeBid(false, (Buyer)currentUser);
+							System.out.println("Bid Successful");
+						}
 						break;
 			}
 		}
 	}
 	
 	private void sellerloginDisplay() {
+		Seller currentSeller = (Seller)currentUser;
 		int choice = 0;
+		if (currentSeller.isBlocked()){
+			return;
+		}
 		while (loggedIn){
 			System.out.println("Seller Account Menu:");
 			System.out.println("1. Start new auction");
@@ -291,11 +366,31 @@ public class AuctionSys
 			switch(choice){
 				case 1: createAuctionDisplay();
 						break;
-				case 2: 
+				case 2: System.out.println("Current Active Auctions: ");
+						for (Auction a : currentSeller.getAuctions()) {
+							if (a.getStatus() == '0') {
+								String reserve = "Reserve not met";
+								if (a.getreserveMet()){
+									reserve = "Reserve met";
+								}
+								System.out.printf(a.getItem().getDescription() + " - £" + a.getCurrentBid() + 
+										" Ends: " + a.getCloseDate() +" " + reserve + "\n");
+							}
+						}
 						break;
-				case 3: 
+				case 3: System.out.println("Pending Auctions:");
+						for (Auction a : currentSeller.getAuctions()) {
+							if (a.getStatus() == 'P') {
+								String reserve = "Reserve not met";
+								if (a.getreserveMet()){
+									reserve = "Reserve met";
+								}
+								System.out.printf(a.getItem().getDescription() + " - £" + a.getCurrentBid() + 
+										" Ends: " + a.getCloseDate() +" " + reserve + "\n");
+							}
+						}
 						break;
-				case 4: 
+				case 4: itemToStock();
 						break;
 			}
 		}

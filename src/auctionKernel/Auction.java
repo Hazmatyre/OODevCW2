@@ -12,7 +12,7 @@ public class Auction implements Blockable {
 	private ArrayList<Buyer> buyers = new ArrayList<Buyer>();
 	private Seller seller;
 	private Item item;
-	private double startPrice, reservePrice;
+	private double startPrice, reservePrice, lowerBidInc, upperBidInc;
 	private LocalDateTime startDate, closeDate;
 	private char status;
 	//U = under construction, P = pending
@@ -30,6 +30,10 @@ public class Auction implements Blockable {
 		this.startDate = startDate;
 		this.closeDate = closeDate;
 		this.status = status;
+		
+		this.lowerBidInc = (startPrice/10);
+		this.upperBidInc = (startPrice/5);
+		
 	}
 	
 	// Note : Constructor overload to handle dates as strings just in case.
@@ -42,10 +46,23 @@ public class Auction implements Blockable {
 		this.startDate = LocalDateTime.parse(startDate);
 		this.closeDate = LocalDateTime.parse(closeDate);
 		this.status = status;
+		
+		this.lowerBidInc = (startPrice/10);
+		this.upperBidInc = (startPrice/5);
 	}
 	
-	public void placeBid(double amount, Buyer who) {
-		bids.push(new Bid(amount, who));
+	/**placeBid accepts a boolean value of true to bid the upper increment or vice versa.
+	 *  
+	 * @param incUpOrLow
+	 * @param who
+	 * @throws ExCatcher
+	 */
+	public void placeBid(boolean incUpOrLow, Buyer who) {
+		if (incUpOrLow = true) {
+			bids.push(new Bid((getUpperBidInc() + getCurrentBid()), who));
+		}
+		else
+			bids.push(new Bid((getLowerBidInc() + getCurrentBid()), who));
 	}
 	public void verify() {
 		this.setStatus('0');
@@ -102,6 +119,14 @@ public class Auction implements Blockable {
 		this.startPrice = price;
 	}
 
+	
+	public double getUpperBidInc() {
+		return this.upperBidInc;
+	}
+	
+	public double getLowerBidInc() {
+		return this.lowerBidInc;
+	}
 
 	public Seller getSeller(){
 		return this.seller;
