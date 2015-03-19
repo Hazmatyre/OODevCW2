@@ -75,7 +75,7 @@ public class Main {
 		menu.placeAuction(menu.getSellerByUsername("squall"), 
 				menu.getSellerByUsername("squall").getItem("PC"), 
 				800.00, 850.00, LocalDateTime.now(), 
-				LocalDateTime.now().plusSeconds(5), '0');
+				LocalDateTime.now().plusSeconds(10), '0');
 		
 		menu.getAuctionByDescription("PC").placeBid(true, menu.getBuyerByUsername("matt"));
 		

@@ -2,6 +2,7 @@ package auctionKernel;
 
 import java.util.*;
 
+@SuppressWarnings("serial")
 public class Seller extends User implements Blockable {
 	
 	private ArrayList<Item> items = new ArrayList<Item>();
@@ -48,7 +49,6 @@ public class Seller extends User implements Blockable {
 	public ArrayList<Auction> getAuctions() {
 		return this.auctions;
 	}
-	// ToDo : Find out how to return multiple objects from a method easily to not break encapsulation.
 	public ArrayList<Item> getItems() {
 		return items;
 	}

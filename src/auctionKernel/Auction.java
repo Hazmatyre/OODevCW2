@@ -1,7 +1,6 @@
 package auctionKernel;
 
 import java.text.DecimalFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -9,7 +8,6 @@ import java.util.*;
 public class Auction implements Blockable {
 	
 	private ArrayDeque<Bid> bids = new ArrayDeque<Bid>(); // NOTE : Use as a stack!!
-	private ArrayList<Buyer> buyers = new ArrayList<Buyer>();
 	private Seller seller;
 	private Item item;
 	private double startPrice, reservePrice, lowerBidInc, upperBidInc;
@@ -19,7 +17,7 @@ public class Auction implements Blockable {
 	//0 = started, 1 = blocked, 2 = sold, 3 = not sold
 	//C = closed
 	
-	DecimalFormat df = new DecimalFormat("#.00");
+	private DecimalFormat df = new DecimalFormat("#.00");
 	
 	public Auction(Seller seller, Item item, double startPrice, double reservePrice, 
 			LocalDateTime startDate, LocalDateTime closeDate, char status){
@@ -34,21 +32,6 @@ public class Auction implements Blockable {
 		this.lowerBidInc = (startPrice/10);
 		this.upperBidInc = (startPrice/5);
 		
-	}
-	
-	// Note : Constructor overload to handle dates as strings just in case.
-	public Auction(Seller seller, String itemDescription, double startPrice, double reservePrice,
-			String startDate, String closeDate, char status) {
-		this.seller = seller;
-		this.item = new Item(itemDescription);
-		this.startPrice = startPrice;
-		this.reservePrice = reservePrice;
-		this.startDate = LocalDateTime.parse(startDate);
-		this.closeDate = LocalDateTime.parse(closeDate);
-		this.status = status;
-		
-		this.lowerBidInc = (startPrice/10);
-		this.upperBidInc = (startPrice/5);
 	}
 	
 	/**placeBid accepts a boolean value of true to bid the upper increment or vice versa.
@@ -77,6 +60,15 @@ public class Auction implements Blockable {
 		else
 			return false;
 	}
+	public void statusPrimer() {
+		System.out.println("Cannot block/unblock auction: ");
+		switch (this.status) {
+			case 'U':System.out.print("This auction's currently under construction.");
+			case 'P':System.out.print("This auction's currently pending.");
+			case 'C':System.out.print("This auction's already closed.");
+		}
+	}
+	//Sets & Gets
 	@Override
 	public void setBlocked() {
 		if (this.getStatus() == '0') {
@@ -97,21 +89,6 @@ public class Auction implements Blockable {
 	public void setStatus(char status) {
 		this.status = status;
 	}
-
-	public Bid getCurrentBidObject() {
-		return bids.peek();
-	}
-
-	public void statusPrimer() {
-		System.out.println("Cannot block/unblock auction: ");
-		switch (this.status) {
-			case 'U':System.out.print("This auction's currently under construction.");
-			case 'P':System.out.print("This auction's currently pending.");
-			case 'C':System.out.print("This auction's already closed.");
-		}
-	}
-	
-	//Sets & Gets
 	public void setItem(Item item) {
 		this.item = item;
 	}
@@ -121,15 +98,17 @@ public class Auction implements Blockable {
 
 	public void setStartPrice(double price) {
 		this.startPrice = price;
-	}
-
-	
+	}	
 	public double getUpperBidInc() {
 		return this.upperBidInc;
 	}
 	
 	public double getLowerBidInc() {
 		return this.lowerBidInc;
+	}
+
+	public Bid getCurrentBidObject() {
+		return bids.peek();
 	}
 
 	public Seller getSeller(){
@@ -156,7 +135,6 @@ public class Auction implements Blockable {
 		return this.startDate;
 	}
 	public LocalDateTime getCloseDate() {
-		//LocalDate date = closeDate.toLocalDate();
 		closeDate.format(DateTimeFormatter.ofPattern("dd::MMM::ss"));
 		return closeDate;
 	}
