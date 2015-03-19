@@ -11,22 +11,32 @@ public class AuctionCheck implements Runnable {
 		this.a = a;
 	}
 
-	public void checkAuctions(){ //Rename?
-		for(Auction x : a.allAuctions){
-			if(x.getCloseDate().isBefore(LocalDateTime.now())){
+	
+	// Method used for closing auctions + notifying the winner
+	public void checkAuctions(){ 
+		for(Auction x : a.allAuctions){ //Loop through all auction objects
+			if(x.getCloseDate().isBefore(LocalDateTime.now())){ 
 				if(x.getStatus() == '0' && x.getreserveMet() == true) {
 					x.setStatus('2');
 					x.setStatus('C');
-					System.out.println(x.getItem().getDescription() + " SOLD"); // Working
+					System.out.println(x.getItem().getDescription() + " SOLD");
+					
+					if(a.getCurrentUser() != null){
+						if(x.getCurrentBidObject().getWho().equals(a.getCurrentUser().getUsername())){ // Checks whether the current user is equal to top bidder
+							System.out.println("Congratulations " + a.getCurrentUser().getUsername() + " You have won item: " + x.getItem().getDescription());
+						}
+					}
 				} else if ( x.getStatus() == '0' && x.getreserveMet() == false){
 					x.setStatus('3');
 					x.setStatus('C');
-					System.out.println(x.getItem().getDescription() + " NOT SOLD"); // Working
+					System.out.println(x.getItem().getDescription() + " NOT SOLD");
 				}
 			}
 		}
 	}
+
 	
+	//Starts Thread
 	public void start() throws InterruptedException{
 		if(t == null){
 			t = new Thread(this, name);
@@ -38,7 +48,7 @@ public class AuctionCheck implements Runnable {
 	public void run() {
 		while(true) {
 		try {
-				Thread.sleep(5000);
+				Thread.sleep(5000); // Sleep Thread for 5 seconds (Only check every 5 seconds)
 				checkAuctions();
 		} catch (InterruptedException e) { e.printStackTrace(); }
 		}

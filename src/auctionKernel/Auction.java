@@ -79,6 +79,10 @@ public class Auction implements Blockable {
 	public double getCurrentBid() {
 		return bids.peek().getAmount();
 	}
+	public Bid getCurrentBidObject() {
+		return bids.peek();
+	}
+	
 	public void statusPrimer() {
 		System.out.println("Cannot block/unblock auction: ");
 		switch (this.status) {

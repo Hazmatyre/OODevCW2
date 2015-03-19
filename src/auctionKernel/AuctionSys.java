@@ -17,6 +17,7 @@ public class AuctionSys
 	public List<Auction> allAuctions = new LinkedList<Auction>();
 	List<User> users = new ArrayList<User>(); 
 	int lineCount = 0;
+	private User currentUser;
 	
 	public void placeAuction(Seller seller, Item item, double startPrice, double reservePrice, 
 			LocalDateTime startDate, LocalDateTime endDate, char status) {
@@ -141,6 +142,10 @@ public class AuctionSys
 		users.add(new Seller(user, pass));
 	}
 	
+
+	public User getCurrentUser() {
+		return currentUser ;
+	}
 
 	// userIn takes an integer as a max value for a switch for a menu setup.
 	// TODO : userIn could accept Q for quit at ANY TIME

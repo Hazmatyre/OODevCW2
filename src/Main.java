@@ -78,7 +78,7 @@ public class Main {
 				800.00, 850.00, LocalDateTime.now(), 
 				LocalDateTime.now().plusSeconds(5), '0');
 		
-		//menu.getAuctionByDescription("PC").placeBid(1000.00, menu.getBuyerByUsername("matt")); - Place Bid
+		menu.getAuctionByDescription("PC").placeBid(1000.00, menu.getBuyerByUsername("matt"));
 		
 		//Threading - http://www.tutorialspoint.com/java/java_multithreading.htm -------------------------- REMOVE BEFORE SUBMISSION
 		try {
