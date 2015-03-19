@@ -12,8 +12,9 @@ public class AuctionSys {
 	private boolean loggedIn = false;
 	private User currentUser; 
 	public List<Auction> allAuctions = new LinkedList<Auction>();
-	List<User> users = new ArrayList<User>(); 	
 
+	List<User> users = new ArrayList<User>(); 	
+	
 	// browseAuction prints all auctions which are currently labelled as "started"
 	public void browseAuction() {
 		int aucNumber = 1;
@@ -81,6 +82,7 @@ public class AuctionSys {
 		} 
 		return 0;
 	}
+
 
 	/** userIn takes the amount of menu options and returns the selected number. If the user is logged in
 	 * the method will add a last option to logout, which quits to 
@@ -418,6 +420,10 @@ public class AuctionSys {
 		}
 		return null;
 	}
+	public User getCurrentUser() {
+		return currentUser ;
+	}
+
 	public Auction getAuctionByDescription(String desc) {
 		for (Auction a : allAuctions) {
 			if (a.getItem().getDescription().equals(desc)) {

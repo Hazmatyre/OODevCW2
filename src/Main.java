@@ -6,7 +6,6 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		
 		AuctionSys menu = new AuctionSys();
 		
 		menu.addSeller("mramazon","123");
@@ -29,13 +28,14 @@ public class Main {
 		menu.getSellerByUsername("dennis").addItem("Tank");
 		menu.getSellerByUsername("conrad").addItem("GPU");
 		menu.getSellerByUsername("squall").addItem("Pistol");
+		menu.getSellerByUsername("squall").addItem("PC");
 		
 		//menu.getSellerByUsername("kyle").setBlocked();
 				
 		menu.placeAuction(menu.getSellerByUsername("mramazon"), 
 				menu.getSellerByUsername("mramazon").getItem("Bike"), 
-				100.00, 150.00, LocalDateTime.now(), 
-				LocalDateTime.now().plusSeconds(5), '0');
+				100.00, 150.00, LocalDateTime.now().minusSeconds(5), 
+				LocalDateTime.now(), '0');
 		
 		menu.placeAuction(menu.getSellerByUsername("mramazon"), 
 				menu.getSellerByUsername("mramazon").getItem("Car"), 
@@ -72,18 +72,21 @@ public class Main {
 				800.00, 850.00, LocalDateTime.now(), 
 				LocalDateTime.now().plusSeconds(40), '0');
 		
+		menu.placeAuction(menu.getSellerByUsername("squall"), 
+				menu.getSellerByUsername("squall").getItem("PC"), 
+				800.00, 850.00, LocalDateTime.now(), 
+				LocalDateTime.now().plusSeconds(5), '0');
+		
+		menu.getAuctionByDescription("PC").placeBid(true, menu.getBuyerByUsername("matt"));
+		
 		try {
 			AuctionCheck R1 = new AuctionCheck("Thread 1", menu);
 			R1.start();
 		} catch (InterruptedException e) { e.printStackTrace(); }
 	
 		menu.startDisplay();
-		
+		System.exit(0);
 		
 	}
 
-	
-	
-	
-	
 }
