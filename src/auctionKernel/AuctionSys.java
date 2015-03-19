@@ -11,7 +11,8 @@ public class AuctionSys {
 	private final DateTimeFormatter formatDT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 	private boolean loggedIn = false;
 	private User currentUser; 
-	public List<Auction> allAuctions = new LinkedList<Auction>();
+	public List<Auction> allAuctions = new ArrayList<Auction>();
+	private DecimalFormat priceFormat = new DecimalFormat("#0.00");
 
 	List<User> users = new ArrayList<User>(); 	
 	
@@ -24,7 +25,7 @@ public class AuctionSys {
 				reserve = "Reserve met";
 			}
 			if (a.getCloseDate().isAfter(LocalDateTime.now()) && a.getStatus() == '0') {
-				System.out.printf(aucNumber + ". " +a.getItem().getDescription() + " - £" + a.getCurrentBid() + 
+				System.out.printf(aucNumber + ". " +a.getItem().getDescription() + " - £" + priceFormat.format(a.getCurrentBid()) + 
 						" Ends: " + formatDT.format(a.getCloseDate()) +" " + reserve + "\n"); // Browse format for when the proper auction object/list is done
 				aucNumber++;
 			}
@@ -58,20 +59,18 @@ public class AuctionSys {
 	// priceIn waits for the next user input, then sticks in a loop until a valid number in price format is entered.
 	public double priceIn() {
 		String strIn;
-		DecimalFormat priceFormat = new DecimalFormat("##.00");
 		double price;
 		boolean pricePicked = false;
 		while (pricePicked == false) {
 			strIn = keyIn.nextLine();
 			try{
 				price = Double.parseDouble(strIn);
-				strIn = priceFormat.format(price);
 			} catch (NumberFormatException e) {
 				System.out.println("Please retry");
 				continue;
 			}
 			price = Double.parseDouble(strIn);
-			System.out.println("Is £" + price + " correct?");
+			System.out.println("Is £" + priceFormat.format(price) + " correct?");
 			System.out.println("1. Yes");
 			System.out.println("2. No, retry");
 			if (userIn(2) == 1) {
@@ -220,6 +219,10 @@ public class AuctionSys {
 					System.out.println("1. £" + (auction.getUpperBidInc() + auction.getCurrentBid()));
 					System.out.println("2. £" + (auction.getLowerBidInc() + auction.getCurrentBid()));
 					int bidChoice = userIn(2);
+					if (auction.getStatus() != '0'){
+						System.out.println("Auction no longer available");
+						break;
+					}
 					if (bidChoice == 1) {
 						auction.placeBid(true, currentBuyer);	
 						System.out.println("Bid Successful");
@@ -247,7 +250,7 @@ public class AuctionSys {
 			choice = userIn(4);
 		
 			switch(choice){
-			case 1: createAuctionDisplay();
+			case 1: createAuctionDisplay(currentSeller);
 					break;
 			case 2: System.out.println("Current Active Auctions: ");
 					for (Auction a : currentSeller.getAuctions()) {
@@ -256,66 +259,42 @@ public class AuctionSys {
 							if (a.getreserveMet()){
 								reserve = "Reserve met";
 							}
-							System.out.printf(a.getItem().getDescription() + " - £" + a.getCurrentBid() + 
+							System.out.printf(a.getItem().getDescription() + " - £" 
+							+ priceFormat.format(a.getCurrentBid()) + 
 									" Ends: " + a.getCloseDate() +" " + reserve + "\n");
 						}
 					}
 					break;
-			case 3: System.out.println("Pending Auctions:");
-					for (Auction a : currentSeller.getAuctions()) {
-						if (a.getStatus() == 'P') {
-							String reserve = "Reserve not met";
-							if (a.getreserveMet()){
-								reserve = "Reserve met";
-							}
-							System.out.printf(a.getItem().getDescription() + " - £" + a.getCurrentBid() + 
-									" Ends: " + a.getCloseDate() +" " + reserve + "\n");
-						}
-					}
-					System.out.println("Enter name of the item to begin auction:");
-					try {
-					getAuctionByDescription(keyIn.nextLine()).setStatus('0');
-					} catch (NullPointerException e) {
-						System.out.println("Item not found");
-						break;
-					}
-					System.out.println("Auction active!");
-					break;
-			case 4: itemToStock();
+			case 3: System.out.println("Pending Auctions:");	
+					for (Auction a : currentSeller.getAuctions()) { 
+						if (a.getStatus() == 'P') { 
+							String reserve = "Reserve not met"; 
+						if (a.getreserveMet()){ 
+							reserve = "Reserve met"; 
+						} 
+						System.out.printf(a.getItem().getDescription() + " - £" + a.getCurrentBid() +  
+						" Ends: " + formatDT.format(a.getCloseDate()) +" " + reserve + "\n"); 
+						} 
+						} 
+						System.out.println("Enter name of the item to begin auction:"); 
+						try { 
+							getAuctionByDescription(keyIn.nextLine()).setStatus('0'); 
+						} catch (NullPointerException e) { 
+							System.out.println("Item not found"); 
+						break; 
+						} 
+							System.out.println("Auction active!"); 
+						break; 
+
+			case 4: itemToStock(currentSeller);
 					break;
 			}
 		}
 	}
 	
-	// adds a new user, they cant type return to cancel account creation.
-	private void signupDisplay() {
-		System.out.println("Sign up:");
-		String crUsername = keyIn.next();
-		System.out.println(crUsername + " chosen.");
-		
-		System.out.println("Enter your password: ");
-		String crPassword = keyIn.next();
-		
-		System.out.println("Are you a buyer or seller?");
-		System.out.println("1. Buyer");
-		System.out.println("2. Seller");
-		int choice = userIn(2);
-		
-		switch(choice) {
-		case 1: addBuyer(crUsername, crPassword);
-				System.out.println("Buyer Account Created");
-				buyerloginDisplay();	
-				break;
-		case 2: addSeller(crUsername, crPassword);
-				System.out.println("Seller Account Created");
-				sellerloginDisplay();
-				break;
-		}
-	}
-	
-	private void createAuctionDisplay() {
-		Seller currentSeller = (Seller)currentUser;
-		String description, dateIn, timeIn, dateTime;
+	private void createAuctionDisplay(Seller currentSeller) {
+		//Seller currentSeller = (Seller)currentUser;
+		String description = null, dateIn, timeIn, dateTime;
 		char status = 'U';
 		Item currentItem = null;
 		double startPrice = 1, reservePrice = 0;
@@ -334,7 +313,8 @@ public class AuctionSys {
 				description = keyIn.nextLine();
 				for (Item i : currentSeller.getItems()) {
 					if (i.getDescription().equals(description)) { 
-						currentItem = currentSeller.getItem(description);
+						currentItem = i;
+						System.out.println(currentItem.getDescription());
 						System.out.println("Item Selected");
 						itemPicked = true;
 						break;
@@ -347,8 +327,7 @@ public class AuctionSys {
 			System.out.println("2. No");
 			int pick = userIn(2);
 			if (pick == 1) {
-				itemToStock();
-				createAuctionDisplay();
+				itemToStock(currentSeller);
 				return;
 			} else {
 				return;
@@ -385,19 +364,44 @@ public class AuctionSys {
 				continue;
 			}
 			System.out.println("Date not within range, please try again!");
-		}		
+		}
 		status = 'P';
 		placeAuction(currentSeller,currentItem,startPrice,reservePrice,LocalDateTime.now(),closeDate,status);
 	}
 
-	private void itemToStock(){
+	private void itemToStock(Seller currentSeller){
 		String description;
-		Seller currentSeller = (Seller)currentUser;
+		//Seller currentSeller = (Seller)currentUser;
 		System.out.println("Enter the name of your item.");
 		description = keyIn.nextLine();
 		currentSeller.addItem(description);
 		System.out.println("Item added to your stock.");
 	}
+	private void signupDisplay() {
+		System.out.println("Sign up:");
+		String crUsername = keyIn.next();
+		System.out.println(crUsername + " chosen.");
+		
+		System.out.println("Enter your password: ");
+		String crPassword = keyIn.next();
+		
+		System.out.println("Are you a buyer or seller?");
+		System.out.println("1. Buyer");
+		System.out.println("2. Seller");
+		int choice = userIn(2);
+		
+		switch(choice) {
+		case 1: addBuyer(crUsername, crPassword);
+				System.out.println("Buyer Account Created");
+				buyerloginDisplay();	
+				break;
+		case 2: addSeller(crUsername, crPassword);
+				System.out.println("Seller Account Created");
+				sellerloginDisplay();
+				break;
+		}
+	}
+
 	public void addBuyer(String user, String pass) {
 		users.add(new Buyer(user, pass));
 	}

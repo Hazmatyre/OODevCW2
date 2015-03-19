@@ -1,10 +1,12 @@
 package auctionKernel;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 
 public class AuctionCheck implements Runnable {
 	private Thread t;
 	public String name;
 	private AuctionSys a;
+	private DecimalFormat priceFormat = new DecimalFormat("#0.00");
 	
 	public AuctionCheck(String name, AuctionSys a){
 		this.name = name;
@@ -18,17 +20,18 @@ public class AuctionCheck implements Runnable {
 				if(x.getStatus() == '0' && x.getreserveMet() == true) {
 					x.setStatus('2');
 					x.setStatus('C');
-					System.out.println(x.getItem().getDescription() + " SOLD for " + x.getCurrentBid());
+					System.out.println("[ALERT] - " + x.getItem().getDescription() + " SOLD for £" + priceFormat.format(x.getCurrentBid()));
 					
 					if(a.getCurrentUser() != null){
 						if(x.getCurrentBidObject().getWho().getUsername().equals(a.getCurrentUser().getUsername())){ // Checks whether the current user is equal to top bidder
-							System.out.println("Congratulations " + a.getCurrentUser().getUsername() + " You have won item: " + x.getItem().getDescription());
+							System.out.println("[ALERT] - " + "Congratulations " + a.getCurrentUser().getUsername() + " You have won item: " + x.getItem().getDescription());
+							x.getItem().setSold();
 						}
 					}
 				} else if ( x.getStatus() == '0' && x.getreserveMet() == false){
 					x.setStatus('3');
 					x.setStatus('C');
-					System.out.println(x.getItem().getDescription() + " Auction ended - no sale");
+					System.out.println("[ALERT] - " + x.getItem().getDescription() + " Auction ended - no sale");
 				}
 			}
 		}

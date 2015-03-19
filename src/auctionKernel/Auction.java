@@ -31,7 +31,6 @@ public class Auction implements Blockable {
 		
 		this.lowerBidInc = (startPrice/10);
 		this.upperBidInc = (startPrice/5);
-		
 	}
 	
 	/**placeBid accepts a boolean value of true to bid the upper increment or vice versa.
@@ -60,6 +59,7 @@ public class Auction implements Blockable {
 		else
 			return false;
 	}
+	
 	public void statusPrimer() {
 		System.out.println("Cannot block/unblock auction: ");
 		switch (this.status) {
@@ -110,7 +110,6 @@ public class Auction implements Blockable {
 	public Bid getCurrentBidObject() {
 		return bids.peek();
 	}
-
 	public Seller getSeller(){
 		return this.seller;
 	}
@@ -146,13 +145,5 @@ public class Auction implements Blockable {
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public String toString(){
-		return this.getItem().getDescription() + " " +  this.getSeller().getUsername() + " " + df.format(this.getStartPrice()) + " " 
-				+ df.format(this.getReservePrice()) + " " + this.getStartDate() + " " 
-				+ this.getCloseDate() + " " + this.getStatus();
 	}	
-	
 }

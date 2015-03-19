@@ -34,13 +34,13 @@ public class Main {
 				
 		menu.placeAuction(menu.getSellerByUsername("mramazon"), 
 				menu.getSellerByUsername("mramazon").getItem("Bike"), 
-				100.00, 150.00, LocalDateTime.now().minusSeconds(5), 
-				LocalDateTime.now(), '0');
+				100.00, 150.00, LocalDateTime.now().plusSeconds(10), 
+				LocalDateTime.now(), 'P');
 		
 		menu.placeAuction(menu.getSellerByUsername("mramazon"), 
 				menu.getSellerByUsername("mramazon").getItem("Car"), 
 				200.00, 250.00, LocalDateTime.now(), 
-				LocalDateTime.now().plusSeconds(10), '0');
+				LocalDateTime.now().plusSeconds(10), 'P');
 		
 		menu.placeAuction(menu.getSellerByUsername("mramazon"), 
 				menu.getSellerByUsername("mramazon").getItem("Boat"), 
@@ -78,12 +78,12 @@ public class Main {
 				LocalDateTime.now().plusSeconds(10), '0');
 		
 		menu.getAuctionByDescription("PC").placeBid(true, menu.getBuyerByUsername("matt"));
-		
+		/*
 		try {
 			AuctionCheck R1 = new AuctionCheck("Thread 1", menu);
 			R1.start();
 		} catch (InterruptedException e) { e.printStackTrace(); }
-	
+	*/
 		menu.startDisplay();
 		System.exit(0);
 		
