@@ -13,9 +13,9 @@ public class AuctionCheck implements Runnable {
 		this.a = a;
 	}
 	
-	// Method used for closing auctions + notifying the winner
+	// Periodically loops through every auction, sets finished ones to complete. Then notifies winners.
 	public void checkAuctions(){ 
-		for(Auction x : a.allAuctions){ //Loop through all auction objects
+		for(Auction x : a.allAuctions){
 			if(x.getCloseDate().isBefore(LocalDateTime.now())){ 
 				if(x.getStatus() == '0' && x.getreserveMet() == true) {
 					x.setStatus('2');

@@ -133,7 +133,7 @@ public class AuctionSys {
 		} 
 		throw new ExCatcher("AccountNotFound");
 	}
-	// Note: Method below is public for testing purposes to be accessed from main!
+	// Note: placeAuction is public for testing purposes to be accessed from main!
 	public void placeAuction(Seller seller, Item item, double startPrice, double reservePrice, 
 			LocalDateTime startDate, LocalDateTime endDate, char status) {
 		Auction a = new Auction(seller,item,startPrice,reservePrice,startDate,endDate, status);
@@ -199,13 +199,11 @@ public class AuctionSys {
 			System.out.println("1. Browse auctions");
 			System.out.println("2. Place bid");
 			choice = userIn(2);
-		
-			// placebid takes you to browse -> select auction to place bid on
+	
 			switch(choice){
 			case 1: browseAuction();
 					break;
-			case 2: // maybe print browse auctions, then ask for a int return for the auction number?
-					browseAuction();
+			case 2: browseAuction();
 					System.out.println("Enter item description:");
 					Auction auction = getAuctionByDescription(keyIn.nextLine());
 					try {
@@ -278,16 +276,16 @@ public class AuctionSys {
 						System.out.printf(a.getItem().getDescription() + " - £" + a.getCurrentBid() +  
 						" Ends: " + formatDT.format(a.getCloseDate()) +" " + reserve + "\n"); 
 						} 
-						} 
-						System.out.println("Enter name of the item to begin auction:"); 
-						try { 
-							getAuctionByDescription(keyIn.nextLine()).setStatus('0'); 
-						} catch (NullPointerException e) { 
-							System.out.println("Item not found"); 
-						break; 
-						} 
-							System.out.println("Auction active!"); 
-						break; 
+					} 
+					System.out.println("Enter name of the item to begin auction:"); 
+					try { 
+						getAuctionByDescription(keyIn.nextLine()).setStatus('0'); 
+					} catch (NullPointerException e) { 
+						System.out.println("Item not found"); 
+					break; 
+					} 
+					System.out.println("Auction active!"); 
+					break; 
 
 			case 4: itemToStock(currentSeller);
 					break;
@@ -382,6 +380,7 @@ public class AuctionSys {
 	}
 	private void signupDisplay() {
 		System.out.println("Sign up:");
+		System.out.println("Enter username:");
 		String crUsername = keyIn.next();
 		System.out.println(crUsername + " chosen.");
 		
