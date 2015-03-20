@@ -237,10 +237,13 @@ public class AuctionSys {
 	
 	private void sellerloginDisplay() {
 		Seller currentSeller = (Seller)currentUser;
+		
 		int choice = 0;
+		
 		if (currentSeller.isBlocked()){
 			return;
 		}
+		
 		while (loggedIn){
 			System.out.println("Seller Account Menu:");
 			System.out.println("1. Start new auction");
@@ -393,10 +396,14 @@ public class AuctionSys {
 		switch(choice) {
 		case 1: addBuyer(crUsername, crPassword);
 				System.out.println("Buyer Account Created");
-				buyerloginDisplay();	
+				currentUser = (Buyer)getBuyerByUsername(crUsername);
+				loggedIn = true;
+				buyerloginDisplay();
 				break;
 		case 2: addSeller(crUsername, crPassword);
 				System.out.println("Seller Account Created");
+				currentUser = (Seller)getSellerByUsername(crUsername);
+				loggedIn = true;
 				sellerloginDisplay();
 				break;
 		}

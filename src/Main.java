@@ -78,12 +78,12 @@ public class Main {
 				LocalDateTime.now().plusSeconds(10), '0');
 		
 		menu.getAuctionByDescription("PC").placeBid(true, menu.getBuyerByUsername("matt"));
-		/*
+		
 		try {
 			AuctionCheck R1 = new AuctionCheck("Thread 1", menu);
 			R1.start();
 		} catch (InterruptedException e) { e.printStackTrace(); }
-	*/
+	
 		menu.startDisplay();
 		System.exit(0);
 		
