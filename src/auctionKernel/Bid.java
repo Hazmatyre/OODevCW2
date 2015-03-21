@@ -1,30 +1,27 @@
 package auctionKernel;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Bid {
 	private double amount;
 	private Buyer who;
-	private LocalDate when;
+	private LocalDateTime when;
+	
+	public Bid(double amount, Buyer who) {
+		this.amount = amount;
+		this.who = who;
+		when = LocalDateTime.now();
+	}
 	
 	//Sets & Gets
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
-	public void setWho(Buyer who) {
-		this.who = who;
-	}
-	public void setWhen(LocalDate when) {
-		this.when = when;
-	}
+	// NOTE : No sets because bids should never ever be modified.
 	public double getAmount() {
 		return this.amount;
 	}
 	public Buyer getWho() {
 		return this.who;
 	}
-	public LocalDate getWhen() {
+	public LocalDateTime getWhen() {
 		return this.when;
-	}
-	
+	}	
 }
